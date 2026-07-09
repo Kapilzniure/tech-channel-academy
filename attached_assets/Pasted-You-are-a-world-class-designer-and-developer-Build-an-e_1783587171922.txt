@@ -1,0 +1,64 @@
+You are a world-class designer and developer. Build an extremely creative, modern, premium, and visually stunning website for "Technology Channel" — a high-quality tech education platform by Bishworaj Poudel.
+
+The overall concept is "The Transmission". The website should feel like a premium creative broadcast platform, not a normal blog. It must look dramatically better and more creative than a regular tech blog. Think high-end creative tech media brand mixed with modern productivity tools (like a blend of Framer, Stripe, and high-quality design studios).
+
+Design Direction:
+- Bold modern design with strong personality
+- Excellent typography and confident visual hierarchy
+- Creative layouts (avoid boring regular grids where possible)
+- Premium dark theme with rich colors and elegant accents
+- High-quality feel with depth, nice shadows, and modern rounded elements
+- Subtle high-quality animations and micro-interactions
+- Make it feel special and memorable
+
+Color Palette:
+- Deep rich dark background (#0A0C14 or similar)
+- Accent color: Rich teal/cyan with personality
+- Use elegant gradients and depth
+
+Key Creative Requirements:
+- The site must feel creative and premium, not simple or basic
+- Hero section should be bold and cinematic with strong visual impact
+- Episodes should feel like special "Transmissions" — design them creatively (not normal blog cards)
+- Use unique section designs instead of standard layouts
+- Strong visual personality throughout
+- Make navigation feel modern and interesting ("Channel Guide" or similar)
+- Include clear monetization paths: prominent "Join Free", "Book Training", and tool recommendations
+
+Required Sections for Homepage:
+
+1. **Bold Hero Section**  
+   Dramatic but professional. Big typography. Strong value proposition. Creative visual element on the side or background. Clear CTAs: "Explore Transmissions" and "Join the Frequency".
+
+2. **Latest Transmissions** (Episodes)  
+   Creative card design. Make them feel special. Include real posts:
+   - What is Automation? A Simple, Practical Guide
+   - How to Setup n8n to Own Domain
+   - n8n For Beginners: Complete Guide to Workflow Automation
+   - How to Create Slides Using AI
+   - Best Tools For AI Automation
+   - Git and GitHub Training in Nepal
+
+3. **Creative Topics / Frequencies Section**  
+   Unique and visually interesting way to explore topics (not basic grid).
+
+4. **The Studio / Creator Section**  
+   Beautiful presentation of Bishworaj Poudel with personality.
+
+5. **Academy / Deep Learning**  
+   Creative teaser for structured training and 1:1 sessions.
+
+6. **Join the Transmission** (Newsletter)  
+   Strong and creative signup section.
+
+Technical Requirements:
+- Build a complete, production-quality website
+- Fully responsive with excellent mobile experience
+- Use modern Tailwind + nice animations
+- Include working modals for "Join Free" and "Book Training"
+- Make forms functional or ready to connect
+- High attention to detail and design quality
+
+Make this website look like it was made by a top design team. It should feel premium, creative, and memorable. Avoid anything that looks basic or like a normal blog.
+
+Start by building the homepage with extremely high design quality. Then add an Episodes page and single transmission page in the same creative style.

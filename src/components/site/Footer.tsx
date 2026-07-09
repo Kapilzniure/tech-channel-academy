@@ -1,46 +1,100 @@
 import { Link } from "@tanstack/react-router";
+import { Radio, Youtube, Mail, ArrowUpRight } from "lucide-react";
+
+const explore = [
+  { label: "Transmissions", href: "/episodes", isLink: true },
+  { label: "Frequencies", href: "/#topics", isLink: false },
+  { label: "Academy", href: "/#academy", isLink: false },
+  { label: "The Studio", href: "/#about", isLink: false },
+];
+
+const connect = [
+  { label: "YouTube", href: "#", icon: Youtube },
+  { label: "Newsletter", href: "/#community", icon: Mail },
+  { label: "Book Training", href: "#", icon: ArrowUpRight },
+];
 
 export function Footer() {
   return (
-    <footer className="mt-24 border-t border-border/60 bg-background">
-      <div className="container-page py-14 grid gap-10 md:grid-cols-4">
-        <div className="space-y-3 md:col-span-2">
-          <div className="flex items-center gap-2">
-            <span className="grid h-8 w-8 place-items-center rounded-md bg-primary/15 text-primary font-semibold">
-              T
-            </span>
-            <span className="font-semibold tracking-tight">Technology Channel</span>
+    <footer className="mt-24 border-t border-border/40 bg-[oklch(0.09_0.026_258)]">
+      {/* Top section */}
+      <div className="container-page py-14">
+        <div className="grid gap-12 md:grid-cols-[2fr_1fr_1fr]">
+          {/* Brand */}
+          <div className="space-y-5">
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary/20">
+                <Radio className="h-4 w-4 text-primary" />
+              </div>
+              <span className="font-display text-sm font-bold tracking-wide text-foreground">
+                THE TRANSMISSION
+              </span>
+            </div>
+            <p className="max-w-xs text-sm text-muted-foreground leading-relaxed">
+              Practical guides to master AI, automation, self-hosting and development —
+              made simple by Bishworaj Poudel from Kathmandu, Nepal.
+            </p>
+            <div className="flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+              <span className="text-xs text-muted-foreground">Broadcasting weekly</span>
+            </div>
           </div>
-          <p className="max-w-sm text-sm text-muted-foreground leading-relaxed">
-            Practical guides to master AI, automation, self-hosting and development —
-            made simple by Bishworaj Poudel.
-          </p>
-        </div>
 
-        <div>
-          <h4 className="text-sm font-semibold mb-3">Explore</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/episodes" className="hover:text-foreground">Episodes</Link></li>
-            <li><a href="/#topics" className="hover:text-foreground">Topics</a></li>
-            <li><a href="/#academy" className="hover:text-foreground">Academy</a></li>
-            <li><a href="/#about" className="hover:text-foreground">About</a></li>
-          </ul>
-        </div>
+          {/* Explore */}
+          <div>
+            <h4 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-5">
+              Explore
+            </h4>
+            <ul className="space-y-3">
+              {explore.map((item) => (
+                <li key={item.label}>
+                  {item.isLink ? (
+                    <Link
+                      to={item.href as "/episodes"}
+                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <a href={item.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                      {item.label}
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        <div>
-          <h4 className="text-sm font-semibold mb-3">Connect</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><a href="#" className="hover:text-foreground">YouTube</a></li>
-            <li><a href="#" className="hover:text-foreground">Newsletter</a></li>
-            <li><a href="#" className="hover:text-foreground">Contact</a></li>
-            <li><a href="#" className="hover:text-foreground">Book Training</a></li>
-          </ul>
+          {/* Connect */}
+          <div>
+            <h4 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-5">
+              Connect
+            </h4>
+            <ul className="space-y-3">
+              {connect.map((item) => (
+                <li key={item.label}>
+                  <a
+                    href={item.href}
+                    className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    <item.icon className="h-3.5 w-3.5" />
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
-      <div className="border-t border-border/60">
-        <div className="container-page py-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} Technology Channel. All rights reserved.</p>
-          <p>Made with care in Nepal.</p>
+
+      {/* Bottom bar */}
+      <div className="border-t border-border/30">
+        <div className="container-page py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
+          <p>© {new Date().getFullYear()} Technology Channel by Bishworaj Poudel. All rights reserved.</p>
+          <p className="flex items-center gap-1.5">
+            <span className="h-1 w-1 rounded-full bg-primary/60" />
+            Signal transmitted from Nepal
+          </p>
         </div>
       </div>
     </footer>
