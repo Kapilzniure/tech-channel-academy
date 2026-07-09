@@ -5,7 +5,7 @@ import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { EpisodeCard } from "@/components/site/EpisodeCard";
 import { Button } from "@/components/ui/button";
-import { episodes } from "@/data/episodes";
+import { episodes, type Episode } from "@/data/episodes";
 
 export const Route = createFileRoute("/episodes/$slug")({
   loader: ({ params }) => {
