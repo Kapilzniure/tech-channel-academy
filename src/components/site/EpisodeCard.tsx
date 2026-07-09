@@ -3,19 +3,18 @@ import { ArrowUpRight, Clock } from "lucide-react";
 import type { Episode } from "@/data/episodes";
 import { episodes } from "@/data/episodes";
 
-function getTransmissionNumber(ep: Episode): string {
+function getTxNum(ep: Episode): string {
   const idx = episodes.findIndex((e) => e.slug === ep.slug);
   return `TX-${String(episodes.length - idx).padStart(3, "0")}`;
 }
 
-// Color accents cycling per card
-const accentColors = [
-  "from-teal-500/20 to-cyan-600/5",
-  "from-violet-500/20 to-indigo-600/5",
-  "from-emerald-500/20 to-teal-600/5",
-  "from-sky-500/20 to-blue-600/5",
-  "from-fuchsia-500/20 to-purple-600/5",
-  "from-orange-500/15 to-amber-600/5",
+const gradients = [
+  { from: "from-teal-500/25", to: "to-cyan-600/5", glow: "oklch(0.78 0.17 182 / 0.18)" },
+  { from: "from-violet-500/22", to: "to-indigo-600/5", glow: "oklch(0.65 0.2 280 / 0.15)" },
+  { from: "from-emerald-500/22", to: "to-teal-600/5", glow: "oklch(0.72 0.17 162 / 0.15)" },
+  { from: "from-sky-500/22", to: "to-blue-600/5", glow: "oklch(0.68 0.18 220 / 0.15)" },
+  { from: "from-fuchsia-500/20", to: "to-purple-600/5", glow: "oklch(0.68 0.22 310 / 0.12)" },
+  { from: "from-orange-500/18", to: "to-amber-600/5", glow: "oklch(0.72 0.2 55 / 0.12)" },
 ];
 
 interface EpisodeCardProps {
@@ -25,63 +24,71 @@ interface EpisodeCardProps {
 }
 
 export function EpisodeCard({ ep, index = 0, featured = false }: EpisodeCardProps) {
-  const txNum = getTransmissionNumber(ep);
-  const accent = accentColors[index % accentColors.length];
+  const txNum = getTxNum(ep);
+  const g = gradients[index % gradients.length];
 
   if (featured) {
     return (
-      <article className="group relative flex flex-col rounded-2xl border border-border/50 bg-card overflow-hidden transition-all duration-500 hover:border-primary/40 hover:shadow-[0_20px_60px_-20px_rgba(20,184,166,0.2)]">
-        {/* Visual header */}
+      <article className="group relative flex flex-col rounded-2xl border border-white/7 bg-white/[0.03] overflow-hidden transition-all duration-500 hover:border-primary/35 hover:-translate-y-1 hover:shadow-[0_24px_64px_oklch(0.78_0.17_182/0.15)]">
+        {/* top accent line */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+        {/* visual header */}
         <Link
           to="/episodes/$slug"
           params={{ slug: ep.slug }}
-          className={`block aspect-[16/8] relative overflow-hidden bg-gradient-to-br ${accent}`}
+          className={`block aspect-[16/8] relative overflow-hidden bg-gradient-to-br ${g.from} ${g.to}`}
         >
-          {/* Grid overlay */}
-          <div className="absolute inset-0"
+          {/* dot grid */}
+          <div
+            className="absolute inset-0 opacity-[0.06]"
             style={{
-              backgroundImage: `linear-gradient(oklch(0.78 0.17 182 / 0.04) 1px, transparent 1px), linear-gradient(90deg, oklch(0.78 0.17 182 / 0.04) 1px, transparent 1px)`,
-              backgroundSize: "32px 32px",
+              backgroundImage: `radial-gradient(circle, white 1px, transparent 1px)`,
+              backgroundSize: "28px 28px",
             }}
           />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_40%,oklch(0.78_0.17_182/0.15),transparent_60%)]" />
-          {/* TX number */}
-          <div className="absolute top-4 left-5 font-display text-xs font-bold tracking-widest text-primary/70">
+          {/* radial glow */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background: `radial-gradient(ellipse 60% 70% at 30% 40%, ${g.glow}, transparent 60%)`,
+            }}
+          />
+          {/* TX badge */}
+          <div className="absolute top-5 left-6 font-display text-xs font-bold tracking-widest text-white/40">
             {txNum}
           </div>
-          {/* Big initial */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="font-display text-[7rem] font-bold text-primary/10 tracking-tighter leading-none select-none">
+          {/* large initial */}
+          <div className="absolute inset-0 flex items-end justify-end pb-5 pr-6">
+            <span className="font-display text-[8rem] font-bold text-white/5 tracking-tighter leading-none select-none">
               {ep.title.charAt(0)}
             </span>
           </div>
         </Link>
 
-        {/* Content */}
+        {/* content */}
         <div className="flex flex-col gap-4 p-7 flex-1">
           <div className="flex flex-wrap gap-2">
             {ep.tags.map((t) => (
               <span
                 key={t}
-                className="text-[10px] uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20"
+                className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/18"
               >
                 {t}
               </span>
             ))}
           </div>
 
-          <h3 className="font-display text-2xl font-bold leading-tight text-foreground group-hover:text-primary transition-colors">
-            <Link to="/episodes/$slug" params={{ slug: ep.slug }}>
-              {ep.title}
-            </Link>
+          <h3 className="font-display text-2xl font-bold leading-tight text-foreground group-hover:text-primary transition-colors duration-200">
+            <Link to="/episodes/$slug" params={{ slug: ep.slug }}>{ep.title}</Link>
           </h3>
 
           <p className="text-sm text-muted-foreground leading-relaxed">{ep.excerpt}</p>
 
-          <div className="mt-auto flex items-center justify-between pt-4 border-t border-border/40">
+          <div className="mt-auto pt-5 border-t border-white/6 flex items-center justify-between">
             <div className="flex items-center gap-3 text-xs text-muted-foreground">
               <span>{ep.date}</span>
-              <span className="h-1 w-1 rounded-full bg-border" />
+              <span className="h-1 w-1 rounded-full bg-white/20" />
               <span className="inline-flex items-center gap-1">
                 <Clock className="h-3 w-3" /> {ep.readTime}
               </span>
@@ -89,7 +96,7 @@ export function EpisodeCard({ ep, index = 0, featured = false }: EpisodeCardProp
             <Link
               to="/episodes/$slug"
               params={{ slug: ep.slug }}
-              className="inline-flex items-center gap-1 text-sm font-semibold text-primary group-hover:gap-2 transition-all"
+              className="inline-flex items-center gap-1 text-sm font-bold text-primary group-hover:gap-2 transition-all"
             >
               Read <ArrowUpRight className="h-3.5 w-3.5" />
             </Link>
@@ -99,46 +106,43 @@ export function EpisodeCard({ ep, index = 0, featured = false }: EpisodeCardProp
     );
   }
 
+  /* ── compact card ── */
   return (
-    <article className="group flex flex-col rounded-xl border border-border/50 bg-card overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-[0_10px_40px_-15px_rgba(20,184,166,0.15)]">
-      {/* Thin accent line */}
-      <div className={`h-0.5 w-full bg-gradient-to-r ${accent.replace("from-", "from-").replace("/20", "/60").replace("/5", "/0")}`} />
+    <article className="group relative flex gap-4 rounded-xl border border-white/7 bg-white/[0.03] p-5 transition-all duration-300 hover:border-primary/30 hover:bg-white/[0.05] hover:-translate-y-0.5 hover:shadow-[0_10px_30px_oklch(0.78_0.17_182/0.1)] overflow-hidden h-full">
+      {/* hover glow bg */}
+      <div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none"
+        style={{ background: "radial-gradient(ellipse at 0% 0%, oklch(0.78 0.17 182 / 0.04), transparent 60%)" }}
+      />
 
-      <div className="flex flex-col gap-3 p-5 flex-1">
-        <div className="flex items-center justify-between">
-          <span className="font-display text-[10px] font-bold tracking-widest text-primary/60">
-            {txNum}
+      {/* thumbnail */}
+      <Link
+        to="/episodes/$slug"
+        params={{ slug: ep.slug }}
+        className={`relative shrink-0 h-16 w-16 rounded-xl bg-gradient-to-br ${g.from} ${g.to} border border-white/8 flex items-center justify-center overflow-hidden`}
+      >
+        <span className="font-display text-2xl font-bold text-white/20">{ep.title.charAt(0)}</span>
+      </Link>
+
+      <div className="flex flex-col flex-1 min-w-0">
+        <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+          <span className="font-display text-[10px] font-bold tracking-widest text-primary/60">{txNum}</span>
+          <span className="h-1 w-1 rounded-full bg-white/20" />
+          <span className="text-[10px] text-muted-foreground flex items-center gap-1">
+            <Clock className="h-2.5 w-2.5" />{ep.readTime}
           </span>
-          <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
-            <Clock className="h-3 w-3" /> {ep.readTime}
-          </div>
         </div>
 
-        <h3 className="font-display text-base font-bold leading-snug text-foreground group-hover:text-primary transition-colors">
-          <Link to="/episodes/$slug" params={{ slug: ep.slug }}>
-            {ep.title}
-          </Link>
+        <h3 className="font-display text-sm font-bold leading-snug text-foreground group-hover:text-primary transition-colors line-clamp-2">
+          <Link to="/episodes/$slug" params={{ slug: ep.slug }}>{ep.title}</Link>
         </h3>
 
-        <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">{ep.excerpt}</p>
-
-        <div className="flex flex-wrap gap-1.5 mt-1">
-          {ep.tags.slice(0, 2).map((t) => (
-            <span
-              key={t}
-              className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-md bg-secondary text-muted-foreground border border-border/50"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
-
-        <div className="mt-auto pt-3 flex items-center justify-between border-t border-border/40">
+        <div className="mt-auto flex items-center justify-between pt-2">
           <span className="text-[11px] text-muted-foreground">{ep.date}</span>
           <Link
             to="/episodes/$slug"
             params={{ slug: ep.slug }}
-            className="inline-flex items-center gap-1 text-xs font-semibold text-primary group-hover:gap-1.5 transition-all"
+            className="inline-flex items-center gap-0.5 text-[11px] font-bold text-primary/70 group-hover:text-primary group-hover:gap-1 transition-all"
           >
             Read <ArrowUpRight className="h-3 w-3" />
           </Link>

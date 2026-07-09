@@ -1,0 +1,41 @@
+You are an expert 2026-level designer and developer. Build a highly modern, premium, and visually stunning website for "Technology Channel".
+
+The goal is to dramatically upgrade the visual design to 2026 standards while keeping the real content from the original website. The current original website looks basic and outdated. We want something that looks premium, modern, confident, and high-quality.
+
+Design Requirements (Very Important):
+- True 2026 modern design aesthetic (bold typography, excellent visual hierarchy, modern spacing, depth, and premium feel)
+- Use rich dark theme with elegant color accents (deep navy + modern teal/cyan)
+- High attention to visual details: modern shadows, smooth hover states, refined rounded corners, depth, and polish
+- Make it look dramatically better and more premium than a normal blog
+- Avoid anything that looks basic, old, or from 2015-2020
+
+Use these real posts from the original website:
+
+1. What is Automation? A Simple, Practical Guide (Feb 11, 2026 • 2 min read)
+2. How to Setup n8n to Own Domain (Feb 4, 2026 • 6 min read)
+3. n8n For Beginners: Complete Guide to Workflow Automation (Jan 26, 2026 • 14 min read)
+4. How to Create Slides Using AI (Jan 2, 2026 • 3 min read)
+5. Best Tools For AI Automation (Jan 1, 2026 • 4 min read)
+6. Git and GitHub Training in Nepal (Nov 21, 2025 • 3 min read)
+
+Homepage Structure (Focus heavily on visual design):
+
+1. Modern Navbar with premium feel and good interactions
+2. Bold Hero Section with strong visual impact and modern layout
+3. Latest Episodes section with high-quality, modern episode cards (make them visually interesting and premium)
+4. Topics / Categories section with creative modern visual treatment
+5. Creator section with nice visual presentation
+6. Academy / Training teaser with premium design
+7. Strong newsletter signup section
+
+Additional Requirements:
+- Use modern Tailwind with high visual polish
+- Add subtle high-quality animations and micro-interactions
+- Make episode cards feel special and premium (not basic cards)
+- Strong focus on typography, spacing, and visual details
+- Fully responsive with excellent mobile experience
+- Include working modals for newsletter and booking training
+
+Make the overall visual design feel expensive, modern, and current for 2026. The difference from the original basic website should be very obvious. Prioritize visual quality and modern design language above everything.
+
+Build the homepage first with extremely high visual design quality.
