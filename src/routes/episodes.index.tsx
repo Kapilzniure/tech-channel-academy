@@ -14,7 +14,8 @@ export const Route = createFileRoute("/episodes/")({
       { title: "All Transmissions — The Transmission" },
       {
         name: "description",
-        content: "Browse every transmission — AI, automation, self-hosting and development by Bishworaj Poudel.",
+        content:
+          "Browse every transmission — AI, automation, self-hosting and development by Bishworaj Poudel.",
       },
       { property: "og:title", content: "All Transmissions" },
     ],
@@ -36,9 +37,7 @@ function EpisodesPage() {
     const term = q.trim().toLowerCase();
     return episodes.filter((e) => {
       const matchesQ =
-        !term ||
-        e.title.toLowerCase().includes(term) ||
-        e.excerpt.toLowerCase().includes(term);
+        !term || e.title.toLowerCase().includes(term) || e.excerpt.toLowerCase().includes(term);
       const matchesTag = !tag || e.tags.includes(tag);
       return matchesQ && matchesTag;
     });
@@ -83,8 +82,8 @@ function EpisodesPage() {
                 All Transmissions
               </h1>
               <p className="mt-5 text-muted-foreground text-lg leading-relaxed max-w-xl">
-                Every guide, tutorial, and field note — {episodes.length} transmissions and counting.
-                Filter by topic or search the archive.
+                Every guide, tutorial, and field note — {episodes.length} transmissions and
+                counting. Filter by topic or search the archive.
               </p>
             </motion.div>
 
@@ -145,7 +144,10 @@ function EpisodesPage() {
                 <div className="font-display text-6xl font-bold text-primary/10 mb-4">∅</div>
                 <p className="text-muted-foreground">No transmissions match your search.</p>
                 <button
-                  onClick={() => { setQ(""); setTag(null); }}
+                  onClick={() => {
+                    setQ("");
+                    setTag(null);
+                  }}
                   className="mt-4 text-sm text-primary hover:underline"
                 >
                   Clear filters

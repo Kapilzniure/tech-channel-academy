@@ -31,8 +31,8 @@ export function Footer() {
               </span>
             </div>
             <p className="max-w-xs text-sm text-muted-foreground leading-relaxed">
-              Practical guides to master AI, automation, self-hosting and development —
-              made simple by Bishworaj Poudel from Kathmandu, Nepal.
+              Practical guides to master AI, automation, self-hosting and development — made simple
+              by Bishworaj Poudel from Kathmandu, Nepal.
             </p>
             <div className="flex items-center gap-1.5">
               <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
@@ -56,7 +56,10 @@ export function Footer() {
                       {item.label}
                     </Link>
                   ) : (
-                    <a href={item.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    <a
+                      href={item.href}
+                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    >
                       {item.label}
                     </a>
                   )}
@@ -90,7 +93,10 @@ export function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-border/30">
         <div className="container-page py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} Technology Channel by Bishworaj Poudel. All rights reserved.</p>
+          <p>
+            © {new Date().getFullYear()} Technology Channel by Bishworaj Poudel. All rights
+            reserved.
+          </p>
           <p className="flex items-center gap-1.5">
             <span className="h-1 w-1 rounded-full bg-primary/60" />
             Signal transmitted from Nepal
