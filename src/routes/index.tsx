@@ -2,7 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring, useMotionTemplate } from "motion/react";
 import { useEffect, useState, useRef, ReactNode } from "react";
 import { articles } from "../data/articles";
-import { Github, Facebook, Instagram, ChevronDown, MonitorPlay, Code2, Sparkles, Server } from "lucide-react";
+import { Github, Facebook, Instagram, ChevronDown, MonitorPlay, Code2, Sparkles, Server, ArrowRight } from "lucide-react";
+import Magnetic from "../components/ui/Magnetic";
+import NeuralNetworkCanvas from "../components/ui/NeuralNetworkCanvas";
 
 // Discord SVG icon
 const Discord = ({ className }: { className?: string }) => (
@@ -135,9 +137,7 @@ function HomeRoute() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-hidden font-sans relative">
-      <div className="bg-noise" />
-      
+    <div className="min-h-screen bg-transparent text-foreground overflow-hidden font-sans relative">
       <AnimatePresence mode="wait">
         {isLoading ? (
           <Preloader key="preloader" />
@@ -165,13 +165,13 @@ function Preloader() {
     <motion.div
       exit={{ opacity: 0, filter: "blur(10px)" }}
       transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-background"
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black"
     >
       <motion.div
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
         transition={{ duration: 1, ease: "easeInOut" }}
-        className="h-[1px] w-48 bg-primary origin-left mb-6"
+        className="h-[1px] w-48 bg-primary origin-left mb-6 shadow-[0_0_10px_var(--color-primary)]"
       />
       <motion.div 
         initial={{ opacity: 0, y: 10 }}
@@ -207,104 +207,86 @@ export function Navigation() {
       >
         <div className="container-page flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 z-50 group relative">
-            <motion.div 
-              animate={{ rotate: 360 }}
-              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-              className="absolute -inset-2 border border-primary/30 rounded-full opacity-0 group-hover:opacity-100"
-            />
             <img src="/favicon.ico" alt="Logo" className="w-8 h-8 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.1)] group-hover:shadow-[0_0_20px_var(--color-primary)] transition-shadow relative z-10" />
             <span className="font-display font-bold text-lg tracking-tight hidden sm:block relative z-10">Technology Channel</span>
           </Link>
 
           <nav className="hidden lg:flex items-center gap-8 relative z-50">
-            <Link to="/" className="text-sm font-medium text-white/70 hover:text-white transition-colors uppercase tracking-widest">Home</Link>
+            <Magnetic><Link to="/" className="text-sm font-medium text-white/70 hover:text-white transition-colors uppercase tracking-widest block p-2">Home</Link></Magnetic>
             
-            <button 
-              onMouseEnter={() => setIsLearnOpen(true)}
-              onClick={() => setIsLearnOpen(!isLearnOpen)}
-              className="flex items-center gap-2 text-sm font-medium text-white/70 hover:text-white transition-colors cursor-pointer uppercase tracking-widest"
-            >
-              Learn <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isLearnOpen ? 'rotate-180' : ''}`} />
-            </button>
+            <Magnetic>
+              <button 
+                onMouseEnter={() => setIsLearnOpen(true)}
+                className="flex items-center gap-2 text-sm font-medium text-white/70 hover:text-white transition-colors cursor-pointer uppercase tracking-widest p-2"
+              >
+                Learn <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isLearnOpen ? 'rotate-180' : ''}`} />
+              </button>
+            </Magnetic>
             
-            <Link to="/about" className="text-sm font-medium text-white/70 hover:text-white transition-colors uppercase tracking-widest">About</Link>
-            <Link to="/courses" className="text-sm font-medium text-white/70 hover:text-white transition-colors uppercase tracking-widest">Courses</Link>
-            <Link to="/apps" className="text-sm font-medium text-white/70 hover:text-white transition-colors uppercase tracking-widest">Apps</Link>
+            <Magnetic><Link to="/about" className="text-sm font-medium text-white/70 hover:text-white transition-colors uppercase tracking-widest block p-2">About</Link></Magnetic>
+            <Magnetic><Link to="/courses" className="text-sm font-medium text-white/70 hover:text-white transition-colors uppercase tracking-widest block p-2">Courses</Link></Magnetic>
+            <Magnetic><Link to="/apps" className="text-sm font-medium text-white/70 hover:text-white transition-colors uppercase tracking-widest block p-2">Apps</Link></Magnetic>
           </nav>
 
-          <a href="https://forms.gle/5n6kLxeyR2CgHQpG7" target="_blank" rel="noreferrer" className="hidden sm:flex items-center gap-2 px-6 py-2.5 rounded-full bg-white text-black text-xs font-bold uppercase tracking-widest hover:scale-105 transition-transform z-50">
-            Become a Teacher
-          </a>
+          <Magnetic>
+            <a href="https://forms.gle/5n6kLxeyR2CgHQpG7" target="_blank" rel="noreferrer" className="hidden sm:flex items-center gap-2 px-6 py-2.5 rounded-full bg-white text-black text-xs font-bold uppercase tracking-widest hover:scale-105 transition-transform z-50">
+              Become a Teacher
+            </a>
+          </Magnetic>
         </div>
       </motion.header>
 
-      {/* Cinematic Mega-Menu HUD */}
+      {/* Clean Header structure without Mega-Menu */}
       <AnimatePresence>
         {isLearnOpen && (
-          <>
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-              className="fixed inset-0 z-40 bg-black/80 backdrop-blur-3xl"
-              onMouseEnter={() => setIsLearnOpen(true)}
-              onMouseLeave={() => setIsLearnOpen(false)}
-            />
-            <motion.div 
-              initial={{ opacity: 0, y: -50, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -50, scale: 0.95 }}
-              transition={{ type: "spring", damping: 20, stiffness: 100 }}
-              className="fixed top-24 left-0 right-0 z-50 container-page"
-              onMouseEnter={() => setIsLearnOpen(true)}
-              onMouseLeave={() => setIsLearnOpen(false)}
-            >
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-black z-40 pt-[120px] pb-12 overflow-y-auto"
+            onMouseLeave={() => setIsLearnOpen(false)}
+          >
+            <div className="container-page">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <Link to="/learn" className="group block">
-                  <TiltCard className="h-full glass-panel p-8 rounded-3xl border border-white/5 group-hover:border-primary/50 transition-colors">
-                    <Sparkles className="w-10 h-10 text-primary mb-6 group-hover:scale-110 transition-transform" />
-                    <h3 className="text-2xl font-display font-bold text-white mb-2">Artificial Intelligence</h3>
-                    <p className="text-sm text-white/50 leading-relaxed font-light mb-6">Master ChatGPT, prompt engineering, and core AI concepts.</p>
-                    <div className="text-xs text-primary font-mono tracking-widest uppercase">Launch Hub</div>
+                  <TiltCard className="h-full flex flex-col bg-white/5 hover:bg-white/10 p-8 rounded-3xl border border-white/5 hover:border-primary/50 transition-colors relative overflow-hidden">
+                    <Sparkles className="w-12 h-12 text-primary mb-8 group-hover:scale-110 transition-transform relative z-10" />
+                    <h3 className="text-3xl font-display font-bold text-white mb-4 relative z-10">AI Mastery</h3>
+                    <p className="text-base text-white/60 leading-relaxed font-light mb-8 relative z-10">Master ChatGPT, prompt engineering, and core AI concepts.</p>
+                    <div className="text-sm text-primary font-mono tracking-widest uppercase mt-auto relative z-10">Launch Hub</div>
                   </TiltCard>
                 </Link>
 
                 <a href="https://dart-tutorial.com/" target="_blank" rel="noreferrer" className="group block">
-                  <TiltCard className="h-full glass-panel p-8 rounded-3xl border border-white/5 group-hover:border-primary/50 transition-colors">
-                    <Code2 className="w-10 h-10 text-primary mb-6 group-hover:scale-110 transition-transform" />
-                    <h3 className="text-2xl font-display font-bold text-white mb-2">Dart Programming</h3>
-                    <p className="text-sm text-white/50 leading-relaxed font-light mb-6">The definitive guide to Dart, the language powering Flutter.</p>
-                    <div className="text-xs text-primary font-mono tracking-widest uppercase">Launch Hub</div>
+                  <TiltCard className="h-full flex flex-col bg-white/5 hover:bg-white/10 p-8 rounded-3xl border border-white/5 hover:border-primary/50 transition-colors relative overflow-hidden">
+                    <Code2 className="w-12 h-12 text-primary mb-8 group-hover:scale-110 transition-transform relative z-10" />
+                    <h3 className="text-3xl font-display font-bold text-white mb-4 relative z-10">Dart</h3>
+                    <p className="text-base text-white/60 leading-relaxed font-light mb-8 relative z-10">The definitive guide to Dart, the language powering Flutter.</p>
+                    <div className="text-sm text-primary font-mono tracking-widest uppercase mt-auto relative z-10">Launch Hub</div>
                   </TiltCard>
                 </a>
 
                 <a href="https://flutter-tutorial.net" target="_blank" rel="noreferrer" className="group block">
-                  <TiltCard className="h-full glass-panel p-8 rounded-3xl border border-white/5 group-hover:border-primary/50 transition-colors">
-                    <MonitorPlay className="w-10 h-10 text-primary mb-6 group-hover:scale-110 transition-transform" />
-                    <h3 className="text-2xl font-display font-bold text-white mb-2">Flutter Dev</h3>
-                    <p className="text-sm text-white/50 leading-relaxed font-light mb-6">Build cross-platform applications beautifully and efficiently.</p>
-                    <div className="text-xs text-primary font-mono tracking-widest uppercase">Launch Hub</div>
+                  <TiltCard className="h-full flex flex-col bg-white/5 hover:bg-white/10 p-8 rounded-3xl border border-white/5 hover:border-primary/50 transition-colors relative overflow-hidden">
+                    <MonitorPlay className="w-12 h-12 text-primary mb-8 group-hover:scale-110 transition-transform relative z-10" />
+                    <h3 className="text-3xl font-display font-bold text-white mb-4 relative z-10">Flutter Dev</h3>
+                    <p className="text-base text-white/60 leading-relaxed font-light mb-8 relative z-10">Build cross-platform applications beautifully and efficiently.</p>
+                    <div className="text-sm text-primary font-mono tracking-widest uppercase mt-auto relative z-10">Launch Hub</div>
                   </TiltCard>
                 </a>
 
                 <a href="https://javaguide.technologychannel.org" target="_blank" rel="noreferrer" className="group block">
-                  <TiltCard className="h-full glass-panel p-8 rounded-3xl border border-white/5 group-hover:border-primary/50 transition-colors">
-                    <Server className="w-10 h-10 text-primary mb-6 group-hover:scale-110 transition-transform" />
-                    <h3 className="text-2xl font-display font-bold text-white mb-2">Java Masterclass</h3>
-                    <p className="text-sm text-white/50 leading-relaxed font-light mb-6">Enterprise-grade Java programming from absolute scratch.</p>
-                    <div className="text-xs text-primary font-mono tracking-widest uppercase">Launch Hub</div>
+                  <TiltCard className="h-full flex flex-col bg-white/5 hover:bg-white/10 p-8 rounded-3xl border border-white/5 hover:border-primary/50 transition-colors relative overflow-hidden">
+                    <Server className="w-12 h-12 text-primary mb-8 group-hover:scale-110 transition-transform relative z-10" />
+                    <h3 className="text-3xl font-display font-bold text-white mb-4 relative z-10">Java</h3>
+                    <p className="text-base text-white/60 leading-relaxed font-light mb-8 relative z-10">Enterprise-grade Java programming from absolute scratch.</p>
+                    <div className="text-sm text-primary font-mono tracking-widest uppercase mt-auto relative z-10">Launch Hub</div>
                   </TiltCard>
                 </a>
-
               </div>
-              
-              <div className="mt-12 text-center text-xs font-mono text-white/30 uppercase tracking-widest">
-                Select a protocol to initiate learning sequence
-              </div>
-            </motion.div>
-          </>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </>
@@ -327,15 +309,17 @@ function HeroSection() {
       style={{ opacity, scale }}
       className="relative h-screen flex flex-col items-center justify-center overflow-hidden container-page"
     >
+      <NeuralNetworkCanvas />
+      
       {/* Abstract geometric background elements */}
       <motion.div 
         animate={{ rotate: 360 }}
         transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] md:w-[800px] h-[600px] md:h-[800px] border border-white/5 rounded-full pointer-events-none"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] md:w-[800px] h-[600px] md:h-[800px] border border-white/5 rounded-full pointer-events-none mix-blend-overlay"
       />
       
       {/* Glow Center */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-primary/10 blur-[100px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-primary/10 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="relative z-10 text-center flex flex-col items-center w-full mt-20 select-none">
         <CinematicText 
@@ -377,9 +361,9 @@ function HeroSection() {
 function KnowledgeGrid() {
   return (
     <section className="relative min-h-screen py-32 container-page z-20">
-      <div className="flex flex-col gap-32 md:gap-48">
-        {articles.map((article, index) => (
-          <ArticleNode key={article.id} article={article} index={index} />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {articles.map((article, i) => (
+          <TiltArticleCard key={article.id} imageSrc={cardImages[i]} article={article} />
         ))}
       </div>
     </section>
@@ -388,90 +372,109 @@ function KnowledgeGrid() {
 
 const cardImages = [
   "/images/automation_nodes.png",
+  "/images/n8n_setup.png",
+  "/images/n8n_beginners.png",
+  "/images/ai_slides.png",
   "/images/ai_core.png",
-  "/images/code_glass.png",
-  "/images/hero_abstract.png",
-  "/images/server_farm.png",
-  "/images/cyber_security.png",
-  "/images/data_stream.png",
-  "/images/cloud_network.png"
+  "/images/ai_models.png",
+  "/images/ssh_guide.png",
+  "/images/ai_headshot.png"
 ];
 
-function ArticleNode({ article, index }: { article: typeof articles[0]; index: number }) {
+function TiltArticleCard({ imageSrc, article }: { imageSrc: string, article: typeof articles[0] }) {
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["0 1", "0.5 0.5"],
-  });
-
-  const scale = useTransform(scrollYProgress, [0, 1], [0.9, 1]);
-  const opacity = useTransform(scrollYProgress, [0, 1], [0.3, 1]);
-  const y = useTransform(scrollYProgress, [0, 1], [100, 0]);
-  const isEven = index % 2 === 0;
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
   
-  const imageSrc = cardImages[index % cardImages.length];
+  const mouseXSpring = useSpring(x, { stiffness: 150, damping: 20 });
+  const mouseYSpring = useSpring(y, { stiffness: 150, damping: 20 });
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["15deg", "-15deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-15deg", "15deg"]);
+
+  const innerX = useTransform(mouseXSpring, [-0.5, 0.5], ["-5%", "5%"]);
+  const innerY = useTransform(mouseYSpring, [-0.5, 0.5], ["-5%", "5%"]);
+
+  const glareX = useTransform(mouseXSpring, [-0.5, 0.5], ["100%", "0%"]);
+  const glareY = useTransform(mouseYSpring, [-0.5, 0.5], ["100%", "0%"]);
+  const glareBackground = useMotionTemplate`radial-gradient(circle at ${glareX} ${glareY}, rgba(255,255,255,0.15) 0%, transparent 60%)`;
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    x.set(mouseX / width - 0.5);
+    y.set(mouseY / height - 0.5);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
 
   return (
     <motion.div
-      ref={ref}
-      style={{ scale, opacity, y }}
-      className={`flex flex-col md:flex-row gap-8 md:gap-20 items-center group ${
-        isEven ? "md:flex-row" : "md:flex-row-reverse"
-      }`}
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.6, type: "spring", bounce: 0.3 }}
+      className="h-full"
     >
-      {/* 3D Tilt Wrapper for Image */}
-      <TiltCard className="w-full md:w-5/12 aspect-[4/3] glass-panel rounded-3xl overflow-hidden shadow-2xl">
-        <img 
-          src={imageSrc} 
-          alt={article.title} 
-          className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-screen pointer-events-none"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none" />
-        
-        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none p-8 z-10">
-          <div className="flex flex-wrap justify-center gap-2 mt-auto">
-            {article.tags.slice(0, 3).map((tag) => (
-              <span key={tag} className="text-[10px] uppercase tracking-wider px-3 py-1 border border-white/20 rounded-full bg-black/60 backdrop-blur-md text-white/90 shadow-xl">
-                {tag}
-              </span>
-            ))}
+      <motion.div
+        ref={ref}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+        className="h-full rounded-3xl"
+      >
+        <a href={article.link} target="_blank" rel="noreferrer" className="block h-full glass-panel rounded-3xl overflow-hidden relative group transform-style-3d border border-white/5 hover:border-primary/30 transition-colors bg-black/40">
+          
+          <motion.div className="absolute inset-0 z-50 pointer-events-none rounded-[inherit] mix-blend-overlay" style={{ background: glareBackground }} />
+          
+          {/* Inner 3D container for image */}
+          <div className="absolute inset-0 z-0 p-3 transform-style-3d translate-z-20 h-56">
+            <div className="w-full h-full rounded-2xl overflow-hidden relative shadow-2xl">
+              <div className="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors z-10 mix-blend-overlay" />
+              <motion.img 
+                style={{ x: innerX, y: innerY, scale: 1.1 }}
+                src={imageSrc} 
+                alt={article.title} 
+                className="w-full h-full object-cover group-hover:scale-100 transition-transform duration-700"
+              />
+              <div className="absolute top-4 right-4 z-20 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-mono text-white/80 border border-white/10">
+                {article.readTime}
+              </div>
+            </div>
           </div>
-        </div>
-      </TiltCard>
-
-      {/* Content */}
-      <div className="w-full md:w-7/12 flex flex-col gap-6 md:p-8">
-        <div className="flex items-center gap-4 text-xs font-mono text-white/40 tracking-widest">
-          <span className="px-2 py-1 bg-white/5 rounded-md">{article.date}</span>
-          <span className="w-1 h-1 rounded-full bg-primary/50" />
-          <span>{article.readTime}</span>
-        </div>
-        
-        <a href={article.link} target="_blank" rel="noreferrer" className="block group/link">
-          <CinematicText 
-            text={article.title} 
-            className="text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-[1.1] tracking-tight group-hover/link:text-primary transition-colors text-left"
-          />
+          
+          {/* Content */}
+          <div className="relative z-10 pt-64 p-8 transform-style-3d translate-z-30 flex flex-col h-full min-h-[380px]">
+            <div className="flex flex-wrap gap-2 mb-4">
+              {article.tags.slice(0,2).map(tag => (
+                <span key={tag} className="text-[10px] uppercase tracking-widest font-mono text-primary bg-primary/10 px-3 py-1 rounded-full backdrop-blur-md border border-primary/20">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <h3 className="text-xl font-display font-bold text-white mb-3 group-hover:text-primary transition-colors line-clamp-2">
+              {article.title}
+            </h3>
+            <p className="text-sm text-white/50 leading-relaxed font-light mb-6 line-clamp-3">
+              {article.excerpt}
+            </p>
+            <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
+              <span className="text-xs text-white/30 font-mono">{article.date}</span>
+              <div className="flex items-center gap-2 text-xs font-mono text-white/50 uppercase tracking-widest group-hover:text-primary transition-colors">
+                <span>Read</span>
+                <ArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+              </div>
+            </div>
+          </div>
         </a>
-        
-        <p className="text-lg md:text-xl text-white/50 leading-relaxed max-w-2xl font-light">
-          {article.excerpt}
-        </p>
-
-        <motion.a 
-          href={article.link}
-          target="_blank"
-          rel="noreferrer"
-          whileHover={{ x: 5 }}
-          className="inline-flex items-center gap-3 text-xs font-bold tracking-widest uppercase text-primary mt-4 w-fit border-b border-primary/30 pb-1 hover:border-primary transition-colors"
-        >
-          Read Article
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
-        </motion.a>
-      </div>
+      </motion.div>
     </motion.div>
   );
 }
@@ -492,10 +495,10 @@ export function Footer() {
               Making technology accessible. Practical guides for AI, automation, and modern software development by Bishworaj Poudel.
             </p>
             <div className="flex gap-4">
-              <SocialLink href="https://github.com/technologychannel" icon={<Github className="w-5 h-5" />} label="GitHub" />
-              <SocialLink href="https://discord.gg/hwNSzvE92F" icon={<Discord className="w-5 h-5" />} label="Discord" />
-              <SocialLink href="https://www.facebook.com/technologychannel.org" icon={<Facebook className="w-5 h-5" />} label="Facebook" />
-              <SocialLink href="https://www.instagram.com/technologychannelofficial/" icon={<Instagram className="w-5 h-5" />} label="Instagram" />
+              <Magnetic><SocialLink href="https://github.com/technologychannel" icon={<Github className="w-5 h-5" />} label="GitHub" /></Magnetic>
+              <Magnetic><SocialLink href="https://discord.gg/hwNSzvE92F" icon={<Discord className="w-5 h-5" />} label="Discord" /></Magnetic>
+              <Magnetic><SocialLink href="https://www.facebook.com/technologychannel.org" icon={<Facebook className="w-5 h-5" />} label="Facebook" /></Magnetic>
+              <Magnetic><SocialLink href="https://www.instagram.com/technologychannelofficial/" icon={<Instagram className="w-5 h-5" />} label="Instagram" /></Magnetic>
             </div>
           </div>
           

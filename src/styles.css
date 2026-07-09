@@ -163,3 +163,18 @@
 .animate-pulse-slow {
   animation: pulse-slow 8s ease-in-out infinite;
 }
+
+/* Spotlight Blueprint Grid */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 1; /* Keep it behind main content but above background */
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(circle 600px at var(--mouse-x, 50vw) var(--mouse-y, 50vh), black 0%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle 600px at var(--mouse-x, 50vw) var(--mouse-y, 50vh), black 0%, transparent 100%);
+  pointer-events: none;
+}
