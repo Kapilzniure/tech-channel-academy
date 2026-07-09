@@ -2,20 +2,12 @@ import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Clock } from "lucide-react";
 import type { Episode } from "@/data/episodes";
 import { episodes } from "@/data/episodes";
+import { EpisodeArtwork } from "./EpisodeArtwork";
 
 function getTxNum(ep: Episode): string {
   const idx = episodes.findIndex((e) => e.slug === ep.slug);
   return `TX-${String(episodes.length - idx).padStart(3, "0")}`;
 }
-
-const gradients = [
-  { from: "from-teal-500/25", to: "to-cyan-600/5", glow: "oklch(0.78 0.17 182 / 0.18)" },
-  { from: "from-violet-500/22", to: "to-indigo-600/5", glow: "oklch(0.65 0.2 280 / 0.15)" },
-  { from: "from-emerald-500/22", to: "to-teal-600/5", glow: "oklch(0.72 0.17 162 / 0.15)" },
-  { from: "from-sky-500/22", to: "to-blue-600/5", glow: "oklch(0.68 0.18 220 / 0.15)" },
-  { from: "from-fuchsia-500/20", to: "to-purple-600/5", glow: "oklch(0.68 0.22 310 / 0.12)" },
-  { from: "from-orange-500/18", to: "to-amber-600/5", glow: "oklch(0.72 0.2 55 / 0.12)" },
-];
 
 interface EpisodeCardProps {
   ep: Episode;
@@ -25,7 +17,6 @@ interface EpisodeCardProps {
 
 export function EpisodeCard({ ep, index = 0, featured = false }: EpisodeCardProps) {
   const txNum = getTxNum(ep);
-  const g = gradients[index % gradients.length];
 
   if (featured) {
     return (
@@ -37,33 +28,16 @@ export function EpisodeCard({ ep, index = 0, featured = false }: EpisodeCardProp
         <Link
           to="/episodes/$slug"
           params={{ slug: ep.slug }}
-          className={`block aspect-[16/8] relative overflow-hidden bg-gradient-to-br ${g.from} ${g.to}`}
+          className="block aspect-[16/8] relative overflow-hidden"
         >
-          {/* dot grid */}
-          <div
-            className="absolute inset-0 opacity-[0.06]"
-            style={{
-              backgroundImage: `radial-gradient(circle, white 1px, transparent 1px)`,
-              backgroundSize: "28px 28px",
-            }}
+          <EpisodeArtwork
+            seed={ep.slug}
+            paletteIndex={index}
+            variant="banner"
+            label={txNum}
+            initial={ep.title.charAt(0)}
+            className="transition-transform duration-700 group-hover:scale-[1.04]"
           />
-          {/* radial glow */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background: `radial-gradient(ellipse 60% 70% at 30% 40%, ${g.glow}, transparent 60%)`,
-            }}
-          />
-          {/* TX badge */}
-          <div className="absolute top-5 left-6 font-display text-xs font-bold tracking-widest text-white/40">
-            {txNum}
-          </div>
-          {/* large initial */}
-          <div className="absolute inset-0 flex items-end justify-end pb-5 pr-6">
-            <span className="font-display text-[8rem] font-bold text-white/5 tracking-tighter leading-none select-none">
-              {ep.title.charAt(0)}
-            </span>
-          </div>
         </Link>
 
         {/* content */}
@@ -80,7 +54,9 @@ export function EpisodeCard({ ep, index = 0, featured = false }: EpisodeCardProp
           </div>
 
           <h3 className="font-display text-2xl font-bold leading-tight text-foreground group-hover:text-primary transition-colors duration-200">
-            <Link to="/episodes/$slug" params={{ slug: ep.slug }}>{ep.title}</Link>
+            <Link to="/episodes/$slug" params={{ slug: ep.slug }}>
+              {ep.title}
+            </Link>
           </h3>
 
           <p className="text-sm text-muted-foreground leading-relaxed">{ep.excerpt}</p>
@@ -112,29 +88,43 @@ export function EpisodeCard({ ep, index = 0, featured = false }: EpisodeCardProp
       {/* hover glow bg */}
       <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none"
-        style={{ background: "radial-gradient(ellipse at 0% 0%, oklch(0.78 0.17 182 / 0.04), transparent 60%)" }}
+        style={{
+          background:
+            "radial-gradient(ellipse at 0% 0%, oklch(0.78 0.17 182 / 0.04), transparent 60%)",
+        }}
       />
 
       {/* thumbnail */}
       <Link
         to="/episodes/$slug"
         params={{ slug: ep.slug }}
-        className={`relative shrink-0 h-16 w-16 rounded-xl bg-gradient-to-br ${g.from} ${g.to} border border-white/8 flex items-center justify-center overflow-hidden`}
+        className="relative shrink-0 h-16 w-16 rounded-xl border border-white/8 overflow-hidden"
       >
-        <span className="font-display text-2xl font-bold text-white/20">{ep.title.charAt(0)}</span>
+        <EpisodeArtwork
+          seed={ep.slug}
+          paletteIndex={index}
+          variant="thumb"
+          initial={ep.title.charAt(0)}
+          className="transition-transform duration-500 group-hover:scale-110"
+        />
       </Link>
 
       <div className="flex flex-col flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-          <span className="font-display text-[10px] font-bold tracking-widest text-primary/60">{txNum}</span>
+          <span className="font-display text-[10px] font-bold tracking-widest text-primary/60">
+            {txNum}
+          </span>
           <span className="h-1 w-1 rounded-full bg-white/20" />
           <span className="text-[10px] text-muted-foreground flex items-center gap-1">
-            <Clock className="h-2.5 w-2.5" />{ep.readTime}
+            <Clock className="h-2.5 w-2.5" />
+            {ep.readTime}
           </span>
         </div>
 
         <h3 className="font-display text-sm font-bold leading-snug text-foreground group-hover:text-primary transition-colors line-clamp-2">
-          <Link to="/episodes/$slug" params={{ slug: ep.slug }}>{ep.title}</Link>
+          <Link to="/episodes/$slug" params={{ slug: ep.slug }}>
+            {ep.title}
+          </Link>
         </h3>
 
         <div className="mt-auto flex items-center justify-between pt-2">

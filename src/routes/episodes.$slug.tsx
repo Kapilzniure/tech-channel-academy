@@ -1,10 +1,21 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowLeft, ArrowUpRight, Clock, Share2, Twitter, Linkedin, LinkIcon, Radio, Check } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  Clock,
+  Share2,
+  Twitter,
+  Linkedin,
+  LinkIcon,
+  Radio,
+  Check,
+} from "lucide-react";
 import { motion } from "motion/react";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { EpisodeCard } from "@/components/site/EpisodeCard";
+import { EpisodeArtwork } from "@/components/site/EpisodeArtwork";
 import { Button } from "@/components/ui/button";
 import { episodes, type Episode } from "@/data/episodes";
 
@@ -14,11 +25,13 @@ export const Route = createFileRoute("/episodes/$slug")({
     if (!episode) throw notFound();
     const txIndex = episodes.findIndex((e) => e.slug === params.slug);
     const txNum = `TX-${String(episodes.length - txIndex).padStart(3, "0")}`;
-    return { episode, txNum };
+    return { episode, txNum, txIndex };
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Transmission not found" }, { name: "robots", content: "noindex" }] };
+      return {
+        meta: [{ title: "Transmission not found" }, { name: "robots", content: "noindex" }],
+      };
     }
     const { episode } = loaderData;
     return {
@@ -43,7 +56,9 @@ function NotFound() {
         <div className="text-center">
           <p className="font-display text-8xl font-bold text-primary/10 mb-4">∅</p>
           <h1 className="font-display text-3xl font-bold">Transmission not found</h1>
-          <p className="mt-3 text-muted-foreground">This transmission may have moved or been rescheduled.</p>
+          <p className="mt-3 text-muted-foreground">
+            This transmission may have moved or been rescheduled.
+          </p>
           <Button asChild className="mt-6 bg-primary text-primary-foreground hover:bg-primary/90">
             <Link to="/episodes">Back to Archive</Link>
           </Button>
@@ -55,7 +70,11 @@ function NotFound() {
 }
 
 function EpisodePage() {
-  const { episode, txNum } = Route.useLoaderData() as { episode: Episode; txNum: string };
+  const { episode, txNum, txIndex } = Route.useLoaderData() as {
+    episode: Episode;
+    txNum: string;
+    txIndex: number;
+  };
   const [progress, setProgress] = useState(0);
   const [copied, setCopied] = useState(false);
 
@@ -170,23 +189,13 @@ function EpisodePage() {
           {/* Cover visual */}
           <div className="container-page max-w-4xl">
             <div className="relative mt-10 aspect-[21/9] rounded-2xl overflow-hidden border border-border/40 bg-card">
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_40%,oklch(0.78_0.17_182/0.18),transparent_60%)]" />
-              <div
-                className="absolute inset-0 opacity-[0.05]"
-                style={{
-                  backgroundImage: `linear-gradient(oklch(0.78 0.17 182) 1px, transparent 1px), linear-gradient(90deg, oklch(0.78 0.17 182) 1px, transparent 1px)`,
-                  backgroundSize: "32px 32px",
-                }}
+              <EpisodeArtwork
+                seed={episode.slug}
+                paletteIndex={txIndex}
+                variant="banner"
+                label={txNum}
+                initial={episode.title.charAt(0)}
               />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="font-display text-[10rem] font-bold text-primary/8 tracking-tighter leading-none select-none">
-                  {episode.title.charAt(0)}
-                </span>
-              </div>
-              {/* TX number badge */}
-              <div className="absolute top-5 left-6 font-display text-sm font-bold tracking-widest text-primary/50">
-                {txNum}
-              </div>
             </div>
           </div>
 
@@ -265,11 +274,13 @@ function EpisodePage() {
                   BP
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">Transmitted by</p>
+                  <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
+                    Transmitted by
+                  </p>
                   <h3 className="font-display text-lg font-bold">{episode.author}</h3>
                   <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                    Developer, trainer and automation practitioner. Helping people cut
-                    busywork and ship real projects with AI in the loop — from Kathmandu, Nepal.
+                    Developer, trainer and automation practitioner. Helping people cut busywork and
+                    ship real projects with AI in the loop — from Kathmandu, Nepal.
                   </p>
                 </div>
                 <Button variant="outline" className="border-border/60 shrink-0 gap-1.5">

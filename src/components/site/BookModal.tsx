@@ -109,7 +109,9 @@ export function BookModal({ open, onOpenChange }: BookModalProps) {
                           {s.duration}
                         </span>
                       </div>
-                      <p className="text-xs text-muted-foreground leading-relaxed">{s.description}</p>
+                      <p className="text-xs text-muted-foreground leading-relaxed">
+                        {s.description}
+                      </p>
                     </div>
                     <div className="shrink-0 text-right">
                       <span className="text-sm font-semibold text-primary">{s.price}</span>

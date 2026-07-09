@@ -67,7 +67,7 @@ export function Navbar() {
                 >
                   {n.label}
                 </a>
-              )
+              ),
             )}
           </nav>
 
@@ -124,21 +124,27 @@ export function Navbar() {
                   >
                     {n.label}
                   </a>
-                )
+                ),
               )}
               <div className="flex gap-2 pt-3 border-t border-border/50 mt-2">
                 <Button
                   variant="ghost"
                   size="sm"
                   className="flex-1 text-muted-foreground"
-                  onClick={() => { setBookOpen(true); setOpen(false); }}
+                  onClick={() => {
+                    setBookOpen(true);
+                    setOpen(false);
+                  }}
                 >
                   Book Training
                 </Button>
                 <Button
                   size="sm"
                   className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 font-semibold"
-                  onClick={() => { setJoinOpen(true); setOpen(false); }}
+                  onClick={() => {
+                    setJoinOpen(true);
+                    setOpen(false);
+                  }}
                 >
                   Join Free
                 </Button>

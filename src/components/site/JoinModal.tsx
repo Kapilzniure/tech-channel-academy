@@ -52,7 +52,8 @@ export function JoinModal({ open, onOpenChange }: JoinModalProps) {
               Tune in to The Transmission
             </DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground leading-relaxed mt-2">
-              One signal per week. Practical AI, automation, and self-hosting guides straight to your inbox.
+              One signal per week. Practical AI, automation, and self-hosting guides straight to
+              your inbox.
             </DialogDescription>
           </DialogHeader>
 

@@ -22,6 +22,7 @@ import { useState } from "react";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { EpisodeCard } from "@/components/site/EpisodeCard";
+import { EpisodeArtwork } from "@/components/site/EpisodeArtwork";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { episodes, topics, tools, courses } from "@/data/episodes";
@@ -119,7 +120,8 @@ function Hero({ onJoin }: { onJoin: () => void }) {
             <span
               className="block text-5xl sm:text-6xl xl:text-7xl font-bold mt-1"
               style={{
-                background: "linear-gradient(100deg, oklch(0.82 0.18 182), oklch(0.72 0.2 196), oklch(0.65 0.18 210))",
+                background:
+                  "linear-gradient(100deg, oklch(0.82 0.18 182), oklch(0.72 0.2 196), oklch(0.65 0.18 210))",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -133,8 +135,8 @@ function Hero({ onJoin }: { onJoin: () => void }) {
           </h1>
 
           <p className="mt-7 text-lg text-muted-foreground leading-relaxed max-w-lg">
-            High-quality guides to master the tools and workflows that actually
-            matter — made simple by Bishworaj Poudel from Kathmandu, Nepal.
+            High-quality guides to master the tools and workflows that actually matter — made simple
+            by Bishworaj Poudel from Kathmandu, Nepal.
           </p>
 
           <div className="mt-9 flex flex-wrap gap-3">
@@ -219,8 +221,6 @@ function Hero({ onJoin }: { onJoin: () => void }) {
 
 /* mini card for hero */
 function HeroEpisodeCard({ ep, index }: { ep: (typeof episodes)[0]; index: number }) {
-  const tagColors = ["from-teal-500/30 to-cyan-600/10", "from-violet-500/25 to-indigo-600/8", "from-emerald-500/25 to-teal-500/8"];
-  const accent = tagColors[index % tagColors.length];
   const txNum = `TX-00${episodes.length - episodes.findIndex((e) => e.slug === ep.slug)}`;
 
   return (
@@ -230,14 +230,23 @@ function HeroEpisodeCard({ ep, index }: { ep: (typeof episodes)[0]; index: numbe
       className="flex gap-4 items-start rounded-2xl border border-white/8 bg-white/[0.04] backdrop-blur-xl p-5 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:border-primary/30 hover:bg-white/[0.06] transition-all duration-300 group"
     >
       {/* thumbnail */}
-      <div className={`shrink-0 h-14 w-14 rounded-xl bg-gradient-to-br ${accent} border border-white/8 flex items-center justify-center`}>
-        <span className="font-display text-xl font-bold text-primary/60">{ep.title.charAt(0)}</span>
+      <div className="relative shrink-0 h-14 w-14 rounded-xl border border-white/8 overflow-hidden">
+        <EpisodeArtwork
+          seed={ep.slug}
+          paletteIndex={index}
+          variant="thumb"
+          initial={ep.title.charAt(0)}
+          className="transition-transform duration-500 group-hover:scale-110"
+        />
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1.5">
-          <span className="text-[10px] font-bold tracking-widest text-primary/60 font-display">{txNum}</span>
+          <span className="text-[10px] font-bold tracking-widest text-primary/60 font-display">
+            {txNum}
+          </span>
           <span className="text-[10px] text-muted-foreground flex items-center gap-1">
-            <Clock className="h-2.5 w-2.5" />{ep.readTime}
+            <Clock className="h-2.5 w-2.5" />
+            {ep.readTime}
           </span>
         </div>
         <h3 className="text-sm font-semibold text-foreground leading-snug line-clamp-2 group-hover:text-primary transition-colors">
@@ -262,11 +271,21 @@ function LatestEpisodes() {
         {/* header */}
         <div className="flex items-end justify-between mb-14 gap-4 flex-wrap">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-primary mb-3">Latest Content</p>
-            <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight">Latest Episodes</h2>
+            <p className="text-xs font-bold uppercase tracking-widest text-primary mb-3">
+              Latest Content
+            </p>
+            <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight">
+              Latest Episodes
+            </h2>
           </div>
-          <Button asChild variant="outline" className="border-border/40 gap-2 hover:border-primary/30">
-            <Link to="/episodes">All Episodes <ArrowRight className="h-4 w-4" /></Link>
+          <Button
+            asChild
+            variant="outline"
+            className="border-border/40 gap-2 hover:border-primary/30"
+          >
+            <Link to="/episodes">
+              All Episodes <ArrowRight className="h-4 w-4" />
+            </Link>
           </Button>
         </div>
 
@@ -328,8 +347,12 @@ function Topics() {
     <section id="topics" className="py-24 border-t border-white/5">
       <div className="container-page">
         <div className="mb-14">
-          <p className="text-xs font-bold uppercase tracking-widest text-primary mb-3">Explore by Topic</p>
-          <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight">Browse Categories</h2>
+          <p className="text-xs font-bold uppercase tracking-widest text-primary mb-3">
+            Explore by Topic
+          </p>
+          <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight">
+            Browse Categories
+          </h2>
           <p className="mt-3 text-muted-foreground max-w-lg">
             Six focused tracks. Pick one and go deep.
           </p>
@@ -349,8 +372,12 @@ function Topics() {
                 className="group relative flex items-center gap-4 rounded-2xl border border-white/7 bg-white/[0.03] p-6 transition-all duration-300 hover:border-primary/35 hover:bg-white/[0.055] hover:-translate-y-0.5 hover:shadow-[0_12px_40px_oklch(0.78_0.17_182/0.12)] overflow-hidden"
               >
                 {/* hover glow bg */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{ background: "radial-gradient(ellipse at 0% 50%, oklch(0.78 0.17 182 / 0.06), transparent 60%)" }}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  style={{
+                    background:
+                      "radial-gradient(ellipse at 0% 50%, oklch(0.78 0.17 182 / 0.06), transparent 60%)",
+                  }}
                 />
 
                 <span className="relative grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-primary/20 bg-primary/10 text-primary transition-all group-hover:border-primary/35 group-hover:bg-primary/15">
@@ -421,17 +448,21 @@ function Creator({ onBook }: { onBook: () => void }) {
 
             {/* content side */}
             <div className="p-8 md:p-12 flex flex-col justify-center">
-              <p className="text-xs font-bold uppercase tracking-widest text-primary mb-4">Meet the Creator</p>
-              <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight">Bishworaj Poudel</h2>
+              <p className="text-xs font-bold uppercase tracking-widest text-primary mb-4">
+                Meet the Creator
+              </p>
+              <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight">
+                Bishworaj Poudel
+              </h2>
 
               <p className="mt-5 text-muted-foreground leading-relaxed">
-                Developer, trainer, and automation practitioner. For the past several years
-                I've been helping students and small teams cut busywork, self-host the
-                tools they rely on, and ship real projects with AI in the loop.
+                Developer, trainer, and automation practitioner. For the past several years I've
+                been helping students and small teams cut busywork, self-host the tools they rely
+                on, and ship real projects with AI in the loop.
               </p>
               <p className="mt-3 text-muted-foreground leading-relaxed">
-                This channel is where I share what actually works — no hype, no churn —
-                just the patterns and tools I use in my own practice, every week.
+                This channel is where I share what actually works — no hype, no churn — just the
+                patterns and tools I use in my own practice, every week.
               </p>
 
               {/* stats */}
@@ -455,7 +486,10 @@ function Creator({ onBook }: { onBook: () => void }) {
                 >
                   <Star className="h-4 w-4" /> Book a Session
                 </Button>
-                <Button variant="outline" className="border-border/40 gap-1.5 hover:border-primary/30">
+                <Button
+                  variant="outline"
+                  className="border-border/40 gap-1.5 hover:border-primary/30"
+                >
                   Read the Story <ArrowUpRight className="h-3.5 w-3.5" />
                 </Button>
               </div>
@@ -476,8 +510,12 @@ function Academy() {
       <div className="container-page">
         <div className="flex items-end justify-between mb-14 gap-4 flex-wrap">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-primary mb-3">Deep Learning</p>
-            <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight">The Academy</h2>
+            <p className="text-xs font-bold uppercase tracking-widest text-primary mb-3">
+              Deep Learning
+            </p>
+            <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight">
+              The Academy
+            </h2>
             <p className="mt-3 text-muted-foreground max-w-lg">
               When a single episode isn't enough — go deep with a proper course.
             </p>
@@ -517,13 +555,18 @@ function Academy() {
                 {c.title}
               </h3>
 
-              <p className="mt-3 text-sm text-muted-foreground leading-relaxed flex-1">{c.description}</p>
+              <p className="mt-3 text-sm text-muted-foreground leading-relaxed flex-1">
+                {c.description}
+              </p>
 
               <div className="mt-7 pt-5 border-t border-white/6 flex items-center justify-between">
                 <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                   <Clock className="h-3.5 w-3.5" /> {c.duration}
                 </div>
-                <a href="#" className="inline-flex items-center gap-1 text-sm font-semibold text-primary group-hover:gap-2 transition-all">
+                <a
+                  href="#"
+                  className="inline-flex items-center gap-1 text-sm font-semibold text-primary group-hover:gap-2 transition-all"
+                >
                   Join <ArrowUpRight className="h-3.5 w-3.5" />
                 </a>
               </div>
@@ -548,7 +591,8 @@ function Academy() {
               <div>
                 <h3 className="font-display text-xl font-bold">1-on-1 Training Sessions</h3>
                 <p className="mt-1 text-sm text-muted-foreground max-w-md">
-                  Private sessions tailored to your goals — automation strategy, n8n deep dives, or team workshops.
+                  Private sessions tailored to your goals — automation strategy, n8n deep dives, or
+                  team workshops.
                 </p>
               </div>
             </div>
@@ -561,7 +605,9 @@ function Academy() {
         {/* tools */}
         <div className="mt-16">
           <div className="mb-8">
-            <p className="text-xs font-bold uppercase tracking-widest text-primary mb-2">Recommended Stack</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-primary mb-2">
+              Recommended Stack
+            </p>
             <h3 className="font-display text-2xl md:text-3xl font-bold">Tools I Actually Use</h3>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -577,7 +623,9 @@ function Academy() {
                 <h4 className="font-display font-bold text-foreground group-hover:text-primary transition-colors">
                   {tool.name}
                 </h4>
-                <p className="mt-2 text-xs text-muted-foreground leading-relaxed flex-1">{tool.description}</p>
+                <p className="mt-2 text-xs text-muted-foreground leading-relaxed flex-1">
+                  {tool.description}
+                </p>
                 <div className="mt-4 flex items-start gap-1.5 text-xs text-foreground/70">
                   <Check className="h-3.5 w-3.5 mt-0.5 text-primary shrink-0" />
                   <span>{tool.benefit}</span>
@@ -640,8 +688,8 @@ function Newsletter({ onJoin }: { onJoin: () => void }) {
                 Join 2,000+ Practitioners
               </h2>
               <p className="mt-4 text-muted-foreground leading-relaxed max-w-md">
-                One thoughtful email each week: the new episode, a tool worth trying,
-                and a workflow you can copy. No fluff. Unsubscribe anytime.
+                One thoughtful email each week: the new episode, a tool worth trying, and a workflow
+                you can copy. No fluff. Unsubscribe anytime.
               </p>
               <ul className="mt-7 space-y-3">
                 {[
@@ -664,9 +712,17 @@ function Newsletter({ onJoin }: { onJoin: () => void }) {
             <div className="rounded-2xl border border-white/8 bg-white/[0.03] backdrop-blur p-7 space-y-4">
               <div>
                 <p className="font-display font-bold text-lg">Get the newsletter — free</p>
-                <p className="text-sm text-muted-foreground mt-1">Trusted by practitioners in 40+ countries.</p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Trusted by practitioners in 40+ countries.
+                </p>
               </div>
-              <form onSubmit={(e) => { e.preventDefault(); onJoin(); }} className="space-y-3">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  onJoin();
+                }}
+                className="space-y-3"
+              >
                 <Input
                   type="email"
                   required
