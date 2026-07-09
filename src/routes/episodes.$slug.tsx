@@ -49,7 +49,7 @@ function NotFound() {
 }
 
 function EpisodePage() {
-  const { episode } = Route.useLoaderData();
+  const { episode } = Route.useLoaderData() as { episode: Episode };
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
