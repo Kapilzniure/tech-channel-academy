@@ -7,6 +7,7 @@ export type Episode = {
   excerpt: string;
   author: string;
   content: string;
+  image?: string;
 };
 
 export const episodes: Episode[] = [
@@ -16,6 +17,7 @@ export const episodes: Episode[] = [
     date: "Feb 18, 2026",
     readTime: "4 min read",
     tags: ["AI", "Search", "Guide"],
+    image: "/images/ai_search.png",
     excerpt:
       "A deep dive into the mechanisms behind AI search engines. Understand how vector embeddings and retrieval-augmented generation are transforming how we find information online.",
     author: "Bishworaj Poudel",
@@ -37,6 +39,7 @@ This means you can ask complex, multi-part questions and get answers that are ac
     date: "Feb 11, 2026",
     readTime: "2 min read",
     tags: ["Automation", "Beginners", "Guide"],
+    image: "/images/automation.png",
     excerpt:
       "Automation replaces repetitive manual work with software that runs reliably in the background. Here is a plain-English tour of what it is, where it helps, and how to start.",
     author: "Bishworaj Poudel",
@@ -54,6 +57,7 @@ Every business runs on small workflows: moving a form entry into a spreadsheet, 
     date: "Feb 4, 2026",
     readTime: "6 min read",
     tags: ["n8n", "Self-Hosting", "DevOps"],
+    image: "/images/n8n_setup.png",
     excerpt:
       "A calm, step-by-step walkthrough for pointing your own domain at a self-hosted n8n instance, with HTTPS via Caddy and clean DNS records.",
     author: "Bishworaj Poudel",
@@ -71,6 +75,7 @@ A VPS (a small DigitalOcean droplet is plenty), a registered domain, and about t
     date: "Jan 26, 2026",
     readTime: "14 min read",
     tags: ["n8n", "Automation", "Tutorial"],
+    image: "/images/n8n_beginners.png",
     excerpt:
       "The long-form introduction I wish existed when I started with n8n — nodes, triggers, credentials, and the mental model for building workflows that survive real use.",
     author: "Bishworaj Poudel",
@@ -88,6 +93,7 @@ Every workflow starts with a trigger, moves data through a series of nodes, and 
     date: "Jan 2, 2026",
     readTime: "3 min read",
     tags: ["AI Tools", "Productivity"],
+    image: "/images/ai_slides.png",
     excerpt:
       "A short workflow for turning a rough outline into a polished slide deck using AI — without the generic template look.",
     author: "Bishworaj Poudel",
@@ -105,6 +111,7 @@ Draft a one-line thesis. Ask the model for a section outline. Refine until it fe
     date: "Jan 1, 2026",
     readTime: "4 min read",
     tags: ["AI Tools", "Automation", "Tools"],
+    image: "/images/ai_tools.png",
     excerpt:
       "A curated list of the tools I actually reach for when combining large language models with real-world workflows.",
     author: "Bishworaj Poudel",

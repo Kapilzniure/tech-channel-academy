@@ -82,13 +82,12 @@ function AboutRoute() {
                 initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
                 animate={{ opacity: 1, scale: 1, rotate: 0 }}
                 transition={{ duration: 1.5, type: "spring", bounce: 0.4 }}
-                className="relative w-80 h-80 md:w-96 md:h-96 rounded-[3rem] border border-white/10 bg-white/5 backdrop-blur-md p-10 overflow-hidden group shadow-[0_0_50px_rgba(0,0,0,0.5)] flex items-center justify-center"
+                className="w-64 h-64 relative z-10 flex items-center justify-center bg-white rounded-full shadow-[0_0_50px_rgba(255,255,255,0.2)] p-12"
               >
-                <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10 pointer-events-none" />
                 <img 
-                  src="https://technologychannel.org/logos/logo.png" 
-                  alt="Technology Channel" 
-                  className="w-full h-full object-contain filter drop-shadow-2xl group-hover:scale-110 transition-transform duration-1000"
+                  src="/favicon.ico" 
+                  alt="Technology Channel Symbol" 
+                  className="w-full h-full object-contain"
                 />
               </motion.div>
             </motion.div>

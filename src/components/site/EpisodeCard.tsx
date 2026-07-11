@@ -75,7 +75,7 @@ export function EpisodeCard({ ep, index = 0, featured = false }: EpisodeCardProp
           <div className="block aspect-[16/8] relative overflow-hidden transform-gpu" style={{ transform: "translateZ(20px)" }}>
             <div className="absolute inset-0 bg-black/20 z-10 group-hover:bg-transparent transition-colors duration-500" />
             <img 
-              src="https://technologychannel.org/images/thumbnail.png"
+              src={ep.image || "https://technologychannel.org/images/thumbnail.png"}
               alt={ep.title}
               className="transition-transform duration-1000 group-hover:scale-105 w-full h-full object-cover"
             />
@@ -142,7 +142,7 @@ export function EpisodeCard({ ep, index = 0, featured = false }: EpisodeCardProp
         <div className="flex gap-6 relative z-10 transform-gpu h-full flex-col" style={{ transform: "translateZ(20px)" }}>
           <div className="relative shrink-0 h-48 w-full rounded-2xl border border-white/10 overflow-hidden mb-2">
             <img 
-              src="https://technologychannel.org/images/thumbnail.png"
+              src={ep.image || "https://technologychannel.org/images/thumbnail.png"}
               alt={ep.title}
               className="transition-transform duration-700 group-hover:scale-105 w-full h-full object-cover"
             />

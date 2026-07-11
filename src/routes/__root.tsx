@@ -80,17 +80,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Technology Channel — Practical AI, Automation & Self-Hosting" },
+      { title: "Technology Channel" },
       {
         name: "description",
-        content:
-          "Practical guides to master AI, automation, self-hosting and development — made simple by Bishworaj Poudel.",
+        content: "Technology Channel Official Website.",
       },
+      { name: "keywords", content: "technology channel,technology channel,technologychannel" },
       { name: "author", content: "Bishworaj Poudel" },
       { property: "og:title", content: "Technology Channel" },
       {
         property: "og:description",
-        content: "Practical guides to master AI, automation, self-hosting and development.",
+        content: "Technology Channel Official Website.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

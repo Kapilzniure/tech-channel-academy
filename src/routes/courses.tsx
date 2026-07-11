@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion, useMotionTemplate, useMotionValue, useSpring } from "motion/react";
+import { motion, useMotionTemplate, useMotionValue, useSpring, useTransform } from "motion/react";
 import { useRef } from "react";
 import { Navigation, Footer } from "./index";
 import { MonitorPlay, Server, Terminal, Cpu, ArrowRight } from "lucide-react";
@@ -14,28 +14,28 @@ const courses = [
     title: "Java Masterclass",
     description: "Go from zero to hero in Java. Learn object-oriented programming, data structures, and enterprise application development.",
     icon: <Server className="w-10 h-10 text-primary" />,
-    link: "/course/java",
+    topic: "java",
     tag: "POPULAR"
   },
   {
     title: "AI Basics & Prompt Engineering",
     description: "Master the fundamentals of Artificial Intelligence and learn how to leverage LLMs for automation and productivity.",
     icon: <Cpu className="w-10 h-10 text-primary" />,
-    link: "/course/ai",
+    topic: "ai",
     tag: "NEW"
   },
   {
     title: "Flutter Mobile Development",
     description: "Build beautiful natively compiled applications for mobile, web, and desktop from a single codebase.",
     icon: <MonitorPlay className="w-10 h-10 text-primary" />,
-    link: "/course/flutter",
+    topic: "flutter",
     tag: "TRENDING"
   },
   {
     title: "Dart Programming Guide",
     description: "Master the language behind Flutter. Understand core concepts, async programming, and modern Dart syntax.",
     icon: <Terminal className="w-10 h-10 text-primary" />,
-    link: "/course/dart",
+    topic: "dart",
     tag: "ESSENTIAL"
   }
 ];
@@ -120,7 +120,7 @@ function CourseCard({ course }: { course: any }) {
   };
 
   return (
-    <Link to={course.link} className="block relative w-full h-full">
+    <Link to="/course/$topic" params={{ topic: course.topic }} className="block relative w-full h-full">
       <motion.div 
         ref={ref}
         onMouseMove={handleMouseMove}

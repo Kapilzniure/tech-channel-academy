@@ -153,11 +153,66 @@ function HomeRoute() {
             <Navigation />
             <HeroSection />
             <LatestTransmissions />
+            <TagsCloud />
             <Footer />
           </motion.div>
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+const websiteTags = [
+  { name: "AI FOR BEGINNERS", count: 11 },
+  { name: "ARTIFICIAL INTELLIGENCE", count: 10 },
+  { name: "AI CONCEPTS", count: 6 },
+  { name: "DOCKER", count: 6 },
+  { name: "AI BASICS", count: 5 },
+  { name: "DEVOPS", count: 5 },
+  { name: "MACHINE LEARNING", count: 5 },
+  { name: "AI TOOLS", count: 4 },
+  { name: "BUSINESS AUTOMATION", count: 4 },
+  { name: "CHATGPT", count: 4 },
+  { name: "LINUX", count: 3 },
+  { name: "NETWORKING", count: 3 },
+  { name: "PROGRAMMING", count: 3 },
+  { name: "PYTHON", count: 2 },
+  { name: "WEB DEVELOPMENT", count: 2 },
+];
+
+function TagsCloud() {
+  return (
+    <section className="relative py-24 container-page z-20 border-t border-white/10 bg-black/40 backdrop-blur-md">
+      <div className="flex flex-col items-center text-center mb-12">
+        <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">
+          Tags
+        </h2>
+        <p className="text-white/50 font-light max-w-2xl">
+          Explore our extensive library of practical tutorials, guides, and courses across various technologies.
+        </p>
+      </div>
+
+      <div className="flex flex-wrap justify-center gap-4 max-w-5xl mx-auto">
+        {websiteTags.map((tag, i) => (
+          <motion.a
+            href="#"
+            key={tag.name}
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.4, delay: i * 0.05 }}
+            className="group relative flex items-center gap-3 px-5 py-3 rounded-full bg-white/5 border border-white/10 hover:border-primary/50 hover:bg-primary/10 transition-all duration-300"
+          >
+            <span className="text-xs font-mono font-bold tracking-widest text-white/80 group-hover:text-primary transition-colors">
+              {tag.name}
+            </span>
+            <span className="flex items-center justify-center w-6 h-6 rounded-full bg-black/50 text-[10px] font-mono text-white/40 group-hover:bg-primary group-hover:text-black transition-colors">
+              {tag.count}
+            </span>
+          </motion.a>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -392,7 +447,7 @@ function HeroSection() {
           transition={{ duration: 1, delay: 1 }}
           className="mt-12 text-base md:text-xl text-white/60 font-light max-w-xl text-center tracking-wide"
         >
-          Practical guides to master AI, automation, self-hosting and development — made simple by Bishworaj Poudel.
+          We educate doers who drive innovation and make a lasting impact in the IT sector.
         </motion.p>
       </div>
 
@@ -424,7 +479,7 @@ function LatestTransmissions() {
             Latest Updates
           </p>
           <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-white">
-            Recent Transmissions
+            Recent Posts
           </h2>
         </div>
         <Link
@@ -498,9 +553,17 @@ export function Footer() {
         
         <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-white/10 text-xs font-mono text-white/30">
           <p>© {new Date().getFullYear()} Technology Channel. All rights reserved.</p>
-          <div className="flex gap-6 mt-4 md:mt-0 uppercase tracking-widest">
+          <div className="flex items-center gap-6 mt-4 md:mt-0 uppercase tracking-widest">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+            
+            {/* Back to Top from original website */}
+            <button 
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="flex items-center gap-2 ml-4 px-4 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-primary hover:text-black hover:border-primary transition-all text-white/50"
+            >
+              Back to Top <ArrowUpRight className="w-3 h-3 -rotate-45" />
+            </button>
           </div>
         </div>
       </div>
