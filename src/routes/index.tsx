@@ -189,6 +189,7 @@ function Preloader() {
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isLearnOpen, setIsLearnOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -204,14 +205,15 @@ export function Navigation() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 1, delay: 0.1 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled || isLearnOpen ? 'py-4 bg-black/60 backdrop-blur-xl border-b border-white/10' : 'py-8'}`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled || isLearnOpen || isMobileMenuOpen ? 'py-4 bg-black/60 backdrop-blur-xl border-b border-white/10' : 'py-8'}`}
       >
         <div className="container-page flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 z-50 group relative">
             <img src="/favicon.ico" alt="Logo" className="w-8 h-8 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.1)] group-hover:shadow-[0_0_20px_var(--color-primary)] transition-shadow relative z-10" />
-            <span className="font-display font-bold text-lg tracking-tight hidden sm:block relative z-10">Technology Channel</span>
+            <span className="font-display font-bold text-lg tracking-tight sm:block relative z-10">Technology Channel</span>
           </Link>
 
+          {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-8 relative z-50">
             <Magnetic><Link to="/" className="text-sm font-medium text-white/70 hover:text-white transition-colors uppercase tracking-widest block p-2">Home</Link></Magnetic>
             
@@ -229,13 +231,56 @@ export function Navigation() {
             <Magnetic><Link to="/apps" className="text-sm font-medium text-white/70 hover:text-white transition-colors uppercase tracking-widest block p-2">Apps</Link></Magnetic>
           </nav>
 
-          <Magnetic>
-            <a href="https://forms.gle/5n6kLxeyR2CgHQpG7" target="_blank" rel="noreferrer" className="hidden sm:flex items-center gap-2 px-6 py-2.5 rounded-full bg-white text-black text-xs font-bold uppercase tracking-widest hover:scale-105 transition-transform z-50">
-              Become a Teacher
-            </a>
-          </Magnetic>
+          <div className="flex items-center gap-4 z-50">
+            <Magnetic>
+              <a href="https://forms.gle/5n6kLxeyR2CgHQpG7" target="_blank" rel="noreferrer" className="hidden sm:flex items-center gap-2 px-6 py-2.5 rounded-full bg-white text-black text-xs font-bold uppercase tracking-widest hover:scale-105 transition-transform">
+                Become a Teacher
+              </a>
+            </Magnetic>
+            {/* Mobile Menu Toggle */}
+            <button 
+              className="lg:hidden p-2 text-white/70 hover:text-white transition-colors"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                {isMobileMenuOpen ? (
+                  <>
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </>
+                ) : (
+                  <>
+                    <line x1="4" y1="12" x2="20" y2="12"></line>
+                    <line x1="4" y1="6" x2="20" y2="6"></line>
+                    <line x1="4" y1="18" x2="20" y2="18"></line>
+                  </>
+                )}
+              </svg>
+            </button>
+          </div>
         </div>
       </motion.header>
+
+      {/* Mobile Menu Dropdown */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="fixed top-0 left-0 right-0 z-40 bg-black/95 backdrop-blur-3xl border-b border-white/10 pt-24 pb-8 px-6 lg:hidden overflow-hidden"
+          >
+            <nav className="flex flex-col gap-6">
+              <Link onClick={() => setIsMobileMenuOpen(false)} to="/" className="text-xl font-display font-bold text-white hover:text-primary transition-colors">Home</Link>
+              <Link onClick={() => setIsMobileMenuOpen(false)} to="/learn" className="text-xl font-display font-bold text-white hover:text-primary transition-colors">Learn</Link>
+              <Link onClick={() => setIsMobileMenuOpen(false)} to="/about" className="text-xl font-display font-bold text-white hover:text-primary transition-colors">About</Link>
+              <Link onClick={() => setIsMobileMenuOpen(false)} to="/courses" className="text-xl font-display font-bold text-white hover:text-primary transition-colors">Courses</Link>
+              <Link onClick={() => setIsMobileMenuOpen(false)} to="/apps" className="text-xl font-display font-bold text-white hover:text-primary transition-colors">Apps</Link>
+              <a onClick={() => setIsMobileMenuOpen(false)} href="https://forms.gle/5n6kLxeyR2CgHQpG7" target="_blank" rel="noreferrer" className="text-xl font-display font-bold text-primary hover:text-white transition-colors">Become a Teacher</a>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Clean Header structure without Mega-Menu */}
       <AnimatePresence>
@@ -245,12 +290,12 @@ export function Navigation() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black z-40 pt-[120px] pb-12 overflow-y-auto"
+            className="fixed inset-0 bg-black z-40 pt-[120px] pb-12 overflow-y-auto hidden lg:block"
             onMouseLeave={() => setIsLearnOpen(false)}
           >
             <div className="container-page">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-                <Link to="/learn" className="group block">
+                <Link to="/learn" className="group block" onClick={() => setIsLearnOpen(false)}>
                   <TiltCard className="h-full flex flex-col bg-white/5 hover:bg-white/10 p-8 rounded-3xl border border-white/5 hover:border-primary/50 transition-colors relative overflow-hidden">
                     <Sparkles className="w-10 h-10 text-primary mb-6 group-hover:scale-110 transition-transform relative z-10" />
                     <h3 className="text-2xl font-display font-bold text-white mb-3 relative z-10">AI Mastery</h3>
@@ -259,7 +304,7 @@ export function Navigation() {
                   </TiltCard>
                 </Link>
 
-                <Link to="/course/$topic" params={{ topic: "dart" }} className="group block">
+                <Link to="/course/$topic" params={{ topic: "dart" }} className="group block" onClick={() => setIsLearnOpen(false)}>
                   <TiltCard className="h-full flex flex-col bg-white/5 hover:bg-white/10 p-8 rounded-3xl border border-white/5 hover:border-primary/50 transition-colors relative overflow-hidden">
                     <Code2 className="w-10 h-10 text-primary mb-6 group-hover:scale-110 transition-transform relative z-10" />
                     <h3 className="text-2xl font-display font-bold text-white mb-3 relative z-10">Dart</h3>
@@ -268,7 +313,7 @@ export function Navigation() {
                   </TiltCard>
                 </Link>
 
-                <Link to="/course/$topic" params={{ topic: "flutter" }} className="group block">
+                <Link to="/course/$topic" params={{ topic: "flutter" }} className="group block" onClick={() => setIsLearnOpen(false)}>
                   <TiltCard className="h-full flex flex-col bg-white/5 hover:bg-white/10 p-8 rounded-3xl border border-white/5 hover:border-primary/50 transition-colors relative overflow-hidden">
                     <MonitorPlay className="w-10 h-10 text-primary mb-6 group-hover:scale-110 transition-transform relative z-10" />
                     <h3 className="text-2xl font-display font-bold text-white mb-3 relative z-10">Flutter Dev</h3>
@@ -277,7 +322,7 @@ export function Navigation() {
                   </TiltCard>
                 </Link>
 
-                <Link to="/course/$topic" params={{ topic: "java" }} className="group block">
+                <Link to="/course/$topic" params={{ topic: "java" }} className="group block" onClick={() => setIsLearnOpen(false)}>
                   <TiltCard className="h-full flex flex-col bg-white/5 hover:bg-white/10 p-8 rounded-3xl border border-white/5 hover:border-primary/50 transition-colors relative overflow-hidden">
                     <Server className="w-10 h-10 text-primary mb-6 group-hover:scale-110 transition-transform relative z-10" />
                     <h3 className="text-2xl font-display font-bold text-white mb-3 relative z-10">Java</h3>
@@ -286,7 +331,7 @@ export function Navigation() {
                   </TiltCard>
                 </Link>
 
-                <a href="https://typingowl.com/" target="_blank" rel="noreferrer" className="group block">
+                <a href="https://typingowl.com/" target="_blank" rel="noreferrer" className="group block" onClick={() => setIsLearnOpen(false)}>
                   <TiltCard className="h-full flex flex-col bg-white/5 hover:bg-white/10 p-8 rounded-3xl border border-white/5 hover:border-primary/50 transition-colors relative overflow-hidden">
                     <Keyboard className="w-10 h-10 text-primary mb-6 group-hover:scale-110 transition-transform relative z-10" />
                     <h3 className="text-2xl font-display font-bold text-white mb-3 relative z-10">Typing Owl</h3>

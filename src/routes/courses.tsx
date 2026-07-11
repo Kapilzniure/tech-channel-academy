@@ -120,49 +120,50 @@ function CourseCard({ course }: { course: any }) {
   };
 
   return (
-    <motion.a 
-      ref={ref}
-      href={course.link}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        rotateX,
-        rotateY,
-        transformStyle: "preserve-3d",
-      }}
-      className="block relative w-full h-full glass-panel p-10 rounded-[2.5rem] border border-white/5 hover:border-primary/50 group transition-colors duration-500 overflow-hidden"
-    >
-      {/* Glare layer */}
+    <Link to={course.link} className="block relative w-full h-full">
       <motion.div 
-        className="pointer-events-none absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        style={{ background }}
-      />
-      
-      {/* Base gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+        ref={ref}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          rotateX,
+          rotateY,
+          transformStyle: "preserve-3d",
+        }}
+        className="block relative w-full h-full glass-panel p-10 rounded-[2.5rem] border border-white/5 hover:border-primary/50 group transition-colors duration-500 overflow-hidden"
+      >
+        {/* Glare layer */}
+        <motion.div 
+          className="pointer-events-none absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          style={{ background }}
+        />
+        
+        {/* Base gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
 
-      <div className="relative z-10 flex flex-col h-full transform-gpu" style={{ transform: "translateZ(30px)" }}>
-        <div className="flex justify-between items-start mb-12">
-          <div className="p-5 bg-black/50 backdrop-blur-md rounded-2xl border border-white/10 group-hover:bg-primary/20 group-hover:border-primary/30 transition-all duration-500 transform group-hover:scale-110 origin-left">
-            {course.icon}
+        <div className="relative z-10 flex flex-col h-full transform-gpu" style={{ transform: "translateZ(30px)" }}>
+          <div className="flex justify-between items-start mb-12">
+            <div className="p-5 bg-black/50 backdrop-blur-md rounded-2xl border border-white/10 group-hover:bg-primary/20 group-hover:border-primary/30 transition-all duration-500 transform group-hover:scale-110 origin-left">
+              {course.icon}
+            </div>
+            <span className="text-xs font-mono tracking-widest uppercase text-primary border border-primary/30 px-4 py-1.5 rounded-full bg-primary/10 shadow-[0_0_20px_rgba(0,255,255,0.2)]">
+              {course.tag}
+            </span>
           </div>
-          <span className="text-xs font-mono tracking-widest uppercase text-primary border border-primary/30 px-4 py-1.5 rounded-full bg-primary/10 shadow-[0_0_20px_rgba(0,255,255,0.2)]">
-            {course.tag}
-          </span>
+          
+          <h3 className="text-4xl font-display font-bold text-white mb-6 group-hover:text-primary transition-colors">
+            {course.title}
+          </h3>
+          <p className="text-white/50 leading-relaxed font-light mb-12 flex-grow text-lg">
+            {course.description}
+          </p>
+          
+          <div className="flex items-center gap-4 text-sm font-bold tracking-widest uppercase text-white/50 group-hover:text-primary border-t border-white/10 pt-8 group-hover:border-primary/30 transition-colors mt-auto">
+            Access Course
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+          </div>
         </div>
-        
-        <h3 className="text-4xl font-display font-bold text-white mb-6 group-hover:text-primary transition-colors">
-          {course.title}
-        </h3>
-        <p className="text-white/50 leading-relaxed font-light mb-12 flex-grow text-lg">
-          {course.description}
-        </p>
-        
-        <div className="flex items-center gap-4 text-sm font-bold tracking-widest uppercase text-white/50 group-hover:text-primary border-t border-white/10 pt-8 group-hover:border-primary/30 transition-colors mt-auto">
-          Access Course
-          <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-        </div>
-      </div>
-    </motion.a>
+      </motion.div>
+    </Link>
   );
 }

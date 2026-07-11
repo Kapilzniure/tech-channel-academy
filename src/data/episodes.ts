@@ -11,7 +11,28 @@ export type Episode = {
 
 export const episodes: Episode[] = [
   {
-    slug: "what-is-automation-simple-practical-guide",
+    slug: "how-ai-search-really-works",
+    title: "How AI Search Really Works: A Simple, Practical Guide",
+    date: "Feb 18, 2026",
+    readTime: "4 min read",
+    tags: ["AI", "Search", "Guide"],
+    excerpt:
+      "A deep dive into the mechanisms behind AI search engines. Understand how vector embeddings and retrieval-augmented generation are transforming how we find information online.",
+    author: "Bishworaj Poudel",
+    content: `
+AI search is not just a better keyword matcher — it is a fundamental shift in how computers understand human intent. Instead of looking for exact strings of text, modern AI search engines use vector embeddings to understand the semantic meaning of your query.
+
+## The Role of RAG
+
+Retrieval-Augmented Generation (RAG) is the secret sauce. When you ask a question, the system first retrieves relevant documents from a massive database, then feeds those documents to a large language model to synthesize a coherent, accurate answer.
+
+## Why it matters
+
+This means you can ask complex, multi-part questions and get answers that are actually synthesized from multiple sources, rather than just a list of blue links you have to comb through yourself.
+`,
+  },
+  {
+    slug: "what-is-automation",
     title: "What is Automation? A Simple, Practical Guide",
     date: "Feb 11, 2026",
     readTime: "2 min read",
@@ -25,14 +46,6 @@ Automation is the practice of letting software handle the repetitive, rule-based
 ## Why automation matters
 
 Every business runs on small workflows: moving a form entry into a spreadsheet, sending a reminder email, syncing a customer between two apps. Individually they are trivial. Together, they eat entire afternoons. Automation lets you reclaim that time.
-
-## Where to start
-
-Look for a task you do at least three times per week that follows the same steps. That is your first candidate. Map the steps on paper, then translate each one into a trigger and an action inside a tool like n8n or Zapier.
-
-## What to expect
-
-Your first workflow will feel small — and that is the point. Confidence compounds. Within a month, you will spot automation opportunities everywhere.
 `,
   },
   {
@@ -50,26 +63,10 @@ Running n8n on your own domain feels professional and unlocks webhooks that exte
 ## What you need
 
 A VPS (a small DigitalOcean droplet is plenty), a registered domain, and about thirty focused minutes.
-
-## Step 1 — DNS
-
-Create an A record for your subdomain pointing at your server's public IP. Give propagation a few minutes.
-
-## Step 2 — Reverse proxy
-
-Caddy is the easiest option. It fetches TLS certificates automatically and reloads on config changes.
-
-## Step 3 — Run n8n
-
-Use the official Docker image with a persistent volume for your workflows. Restart the container after every environment change.
-
-## Step 4 — Verify
-
-Open your domain in a private window. You should see the n8n login screen served over HTTPS.
 `,
   },
   {
-    slug: "n8n-for-beginners-complete-guide",
+    slug: "n8n-for-beginners",
     title: "n8n For Beginners: Complete Guide to Workflow Automation",
     date: "Jan 26, 2026",
     readTime: "14 min read",
@@ -83,14 +80,6 @@ n8n is a fair-code workflow tool that lets you connect services with a visual ed
 ## The mental model
 
 Every workflow starts with a trigger, moves data through a series of nodes, and ends with one or more actions. Data flows as JSON. If you can read JSON, you can debug any workflow.
-
-## Credentials
-
-Store API keys inside n8n's credential vault, not inside individual nodes. This keeps secrets portable and easy to rotate.
-
-## Error handling
-
-Wrap fragile branches in an Error Trigger workflow. Notify yourself in Slack or email the moment something breaks — silence is the enemy of automation.
 `,
   },
   {
@@ -108,10 +97,6 @@ Slides are storytelling. AI can accelerate the boring parts — layout, wording,
 ## The workflow
 
 Draft a one-line thesis. Ask the model for a section outline. Refine until it feels sharp. Only then generate slide-level copy and imagery.
-
-## Keep it honest
-
-Read every generated line out loud. If it sounds like a brochure, rewrite it in your own voice.
 `,
   },
   {
@@ -129,35 +114,6 @@ The AI tooling landscape is noisy. These are the pieces that have earned a perma
 ## Orchestration
 
 n8n for visual workflows. LangChain when I need programmatic control.
-
-## Models
-
-A hosted frontier model for hard reasoning, a small open model for cheap batch work.
-
-## Storage
-
-A vector database for retrieval, a plain Postgres table for everything else. Do not over-architect.
-`,
-  },
-  {
-    slug: "git-and-github-training-in-nepal",
-    title: "Git and GitHub Training in Nepal",
-    date: "Nov 21, 2025",
-    readTime: "3 min read",
-    tags: ["Git", "Training", "Career"],
-    excerpt:
-      "Details about the in-person Git and GitHub training I run in Nepal — who it is for, what we cover, and how to join the next cohort.",
-    author: "Bishworaj Poudel",
-    content: `
-Version control is the single most leveraged skill a developer can learn. This training exists to give students and early-career engineers a rock-solid foundation.
-
-## What we cover
-
-The mental model of commits, branches, and merges. Real-world team workflows. Pull requests, code review, and the small habits that keep repositories healthy.
-
-## Who it is for
-
-Students, bootcamp grads, and self-taught developers who want to work confidently in a team.
 `,
   },
 ];

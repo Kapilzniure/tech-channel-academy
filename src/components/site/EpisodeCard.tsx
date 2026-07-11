@@ -2,7 +2,6 @@ import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Clock, Play } from "lucide-react";
 import type { Episode } from "@/data/episodes";
 import { episodes } from "@/data/episodes";
-import { EpisodeArtwork } from "./EpisodeArtwork";
 import { motion, useMotionTemplate, useMotionValue, useSpring, useTransform } from "motion/react";
 import { useRef } from "react";
 
@@ -75,13 +74,10 @@ export function EpisodeCard({ ep, index = 0, featured = false }: EpisodeCardProp
           {/* visual header */}
           <div className="block aspect-[16/8] relative overflow-hidden transform-gpu" style={{ transform: "translateZ(20px)" }}>
             <div className="absolute inset-0 bg-black/20 z-10 group-hover:bg-transparent transition-colors duration-500" />
-            <EpisodeArtwork
-              seed={ep.slug}
-              paletteIndex={index}
-              variant="banner"
-              label={txNum}
-              initial={ep.title.charAt(0)}
-              className="transition-transform duration-1000 group-hover:scale-110 w-full h-full"
+            <img 
+              src="https://technologychannel.org/images/thumbnail.png"
+              alt={ep.title}
+              className="transition-transform duration-1000 group-hover:scale-105 w-full h-full object-cover"
             />
             <div className="absolute inset-0 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
               <div className="w-16 h-16 rounded-full bg-black/50 backdrop-blur-md border border-white/20 flex items-center justify-center transform scale-50 group-hover:scale-100 transition-transform duration-500 ease-out">
@@ -145,12 +141,10 @@ export function EpisodeCard({ ep, index = 0, featured = false }: EpisodeCardProp
 
         <div className="flex gap-6 relative z-10 transform-gpu h-full flex-col" style={{ transform: "translateZ(20px)" }}>
           <div className="relative shrink-0 h-48 w-full rounded-2xl border border-white/10 overflow-hidden mb-2">
-            <EpisodeArtwork
-              seed={ep.slug}
-              paletteIndex={index}
-              variant="banner"
-              initial={ep.title.charAt(0)}
-              className="transition-transform duration-700 group-hover:scale-110 w-full h-full object-cover"
+            <img 
+              src="https://technologychannel.org/images/thumbnail.png"
+              alt={ep.title}
+              className="transition-transform duration-700 group-hover:scale-105 w-full h-full object-cover"
             />
             <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 text-xs font-mono font-bold text-primary tracking-widest">
               {txNum}
