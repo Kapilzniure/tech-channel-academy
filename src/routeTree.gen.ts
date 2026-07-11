@@ -10,16 +10,35 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LearnRouteImport } from './routes/learn'
+import { Route as JavaRouteImport } from './routes/java'
+import { Route as FlutterRouteImport } from './routes/flutter'
+import { Route as DartRouteImport } from './routes/dart'
 import { Route as CoursesRouteImport } from './routes/courses'
 import { Route as AppsRouteImport } from './routes/apps'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as EpisodesIndexRouteImport } from './routes/episodes.index'
 import { Route as EpisodesSlugRouteImport } from './routes/episodes.$slug'
+import { Route as CourseTopicRouteImport } from './routes/course.$topic'
 
 const LearnRoute = LearnRouteImport.update({
   id: '/learn',
   path: '/learn',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JavaRoute = JavaRouteImport.update({
+  id: '/java',
+  path: '/java',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FlutterRoute = FlutterRouteImport.update({
+  id: '/flutter',
+  path: '/flutter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DartRoute = DartRouteImport.update({
+  id: '/dart',
+  path: '/dart',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CoursesRoute = CoursesRouteImport.update({
@@ -52,13 +71,22 @@ const EpisodesSlugRoute = EpisodesSlugRouteImport.update({
   path: '/episodes/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CourseTopicRoute = CourseTopicRouteImport.update({
+  id: '/course/$topic',
+  path: '/course/$topic',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/apps': typeof AppsRoute
   '/courses': typeof CoursesRoute
+  '/dart': typeof DartRoute
+  '/flutter': typeof FlutterRoute
+  '/java': typeof JavaRoute
   '/learn': typeof LearnRoute
+  '/course/$topic': typeof CourseTopicRoute
   '/episodes/$slug': typeof EpisodesSlugRoute
   '/episodes/': typeof EpisodesIndexRoute
 }
@@ -67,7 +95,11 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/apps': typeof AppsRoute
   '/courses': typeof CoursesRoute
+  '/dart': typeof DartRoute
+  '/flutter': typeof FlutterRoute
+  '/java': typeof JavaRoute
   '/learn': typeof LearnRoute
+  '/course/$topic': typeof CourseTopicRoute
   '/episodes/$slug': typeof EpisodesSlugRoute
   '/episodes': typeof EpisodesIndexRoute
 }
@@ -77,7 +109,11 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/apps': typeof AppsRoute
   '/courses': typeof CoursesRoute
+  '/dart': typeof DartRoute
+  '/flutter': typeof FlutterRoute
+  '/java': typeof JavaRoute
   '/learn': typeof LearnRoute
+  '/course/$topic': typeof CourseTopicRoute
   '/episodes/$slug': typeof EpisodesSlugRoute
   '/episodes/': typeof EpisodesIndexRoute
 }
@@ -88,7 +124,11 @@ export interface FileRouteTypes {
     | '/about'
     | '/apps'
     | '/courses'
+    | '/dart'
+    | '/flutter'
+    | '/java'
     | '/learn'
+    | '/course/$topic'
     | '/episodes/$slug'
     | '/episodes/'
   fileRoutesByTo: FileRoutesByTo
@@ -97,7 +137,11 @@ export interface FileRouteTypes {
     | '/about'
     | '/apps'
     | '/courses'
+    | '/dart'
+    | '/flutter'
+    | '/java'
     | '/learn'
+    | '/course/$topic'
     | '/episodes/$slug'
     | '/episodes'
   id:
@@ -106,7 +150,11 @@ export interface FileRouteTypes {
     | '/about'
     | '/apps'
     | '/courses'
+    | '/dart'
+    | '/flutter'
+    | '/java'
     | '/learn'
+    | '/course/$topic'
     | '/episodes/$slug'
     | '/episodes/'
   fileRoutesById: FileRoutesById
@@ -116,7 +164,11 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AppsRoute: typeof AppsRoute
   CoursesRoute: typeof CoursesRoute
+  DartRoute: typeof DartRoute
+  FlutterRoute: typeof FlutterRoute
+  JavaRoute: typeof JavaRoute
   LearnRoute: typeof LearnRoute
+  CourseTopicRoute: typeof CourseTopicRoute
   EpisodesSlugRoute: typeof EpisodesSlugRoute
   EpisodesIndexRoute: typeof EpisodesIndexRoute
 }
@@ -128,6 +180,27 @@ declare module '@tanstack/react-router' {
       path: '/learn'
       fullPath: '/learn'
       preLoaderRoute: typeof LearnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/java': {
+      id: '/java'
+      path: '/java'
+      fullPath: '/java'
+      preLoaderRoute: typeof JavaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/flutter': {
+      id: '/flutter'
+      path: '/flutter'
+      fullPath: '/flutter'
+      preLoaderRoute: typeof FlutterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dart': {
+      id: '/dart'
+      path: '/dart'
+      fullPath: '/dart'
+      preLoaderRoute: typeof DartRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/courses': {
@@ -172,6 +245,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EpisodesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/course/$topic': {
+      id: '/course/$topic'
+      path: '/course/$topic'
+      fullPath: '/course/$topic'
+      preLoaderRoute: typeof CourseTopicRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -180,7 +260,11 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AppsRoute: AppsRoute,
   CoursesRoute: CoursesRoute,
+  DartRoute: DartRoute,
+  FlutterRoute: FlutterRoute,
+  JavaRoute: JavaRoute,
   LearnRoute: LearnRoute,
+  CourseTopicRoute: CourseTopicRoute,
   EpisodesSlugRoute: EpisodesSlugRoute,
   EpisodesIndexRoute: EpisodesIndexRoute,
 }

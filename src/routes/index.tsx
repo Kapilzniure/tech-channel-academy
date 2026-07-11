@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring, useMotionTemplate } from "motion/react";
 import { useEffect, useState, useRef, ReactNode } from "react";
-import { articles } from "../data/articles";
-import { Github, Facebook, Instagram, ChevronDown, MonitorPlay, Code2, Sparkles, Server, ArrowRight } from "lucide-react";
+import { episodes } from "@/data/episodes";
+import { EpisodeCard } from "@/components/site/EpisodeCard";
+import { Github, Facebook, Instagram, ChevronDown, MonitorPlay, Code2, Sparkles, Server, ArrowUpRight, Keyboard } from "lucide-react";
 import Magnetic from "../components/ui/Magnetic";
 import NeuralNetworkCanvas from "../components/ui/NeuralNetworkCanvas";
 
@@ -151,7 +152,7 @@ function HomeRoute() {
           >
             <Navigation />
             <HeroSection />
-            <KnowledgeGrid />
+            <LatestTransmissions />
             <Footer />
           </motion.div>
         )}
@@ -248,40 +249,49 @@ export function Navigation() {
             onMouseLeave={() => setIsLearnOpen(false)}
           >
             <div className="container-page">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
                 <Link to="/learn" className="group block">
                   <TiltCard className="h-full flex flex-col bg-white/5 hover:bg-white/10 p-8 rounded-3xl border border-white/5 hover:border-primary/50 transition-colors relative overflow-hidden">
-                    <Sparkles className="w-12 h-12 text-primary mb-8 group-hover:scale-110 transition-transform relative z-10" />
-                    <h3 className="text-3xl font-display font-bold text-white mb-4 relative z-10">AI Mastery</h3>
-                    <p className="text-base text-white/60 leading-relaxed font-light mb-8 relative z-10">Master ChatGPT, prompt engineering, and core AI concepts.</p>
-                    <div className="text-sm text-primary font-mono tracking-widest uppercase mt-auto relative z-10">Launch Hub</div>
+                    <Sparkles className="w-10 h-10 text-primary mb-6 group-hover:scale-110 transition-transform relative z-10" />
+                    <h3 className="text-2xl font-display font-bold text-white mb-3 relative z-10">AI Mastery</h3>
+                    <p className="text-sm text-white/60 leading-relaxed font-light mb-6 relative z-10">Master ChatGPT, prompt engineering, and core AI concepts.</p>
+                    <div className="text-[10px] text-primary font-mono tracking-widest uppercase mt-auto relative z-10">Launch Hub</div>
                   </TiltCard>
                 </Link>
 
-                <a href="https://dart-tutorial.com/" target="_blank" rel="noreferrer" className="group block">
+                <Link to="/course/$topic" params={{ topic: "dart" }} className="group block">
                   <TiltCard className="h-full flex flex-col bg-white/5 hover:bg-white/10 p-8 rounded-3xl border border-white/5 hover:border-primary/50 transition-colors relative overflow-hidden">
-                    <Code2 className="w-12 h-12 text-primary mb-8 group-hover:scale-110 transition-transform relative z-10" />
-                    <h3 className="text-3xl font-display font-bold text-white mb-4 relative z-10">Dart</h3>
-                    <p className="text-base text-white/60 leading-relaxed font-light mb-8 relative z-10">The definitive guide to Dart, the language powering Flutter.</p>
-                    <div className="text-sm text-primary font-mono tracking-widest uppercase mt-auto relative z-10">Launch Hub</div>
+                    <Code2 className="w-10 h-10 text-primary mb-6 group-hover:scale-110 transition-transform relative z-10" />
+                    <h3 className="text-2xl font-display font-bold text-white mb-3 relative z-10">Dart</h3>
+                    <p className="text-sm text-white/60 leading-relaxed font-light mb-6 relative z-10">The definitive guide to Dart, the language powering Flutter.</p>
+                    <div className="text-[10px] text-primary font-mono tracking-widest uppercase mt-auto relative z-10">Launch Hub</div>
                   </TiltCard>
-                </a>
+                </Link>
 
-                <a href="https://flutter-tutorial.net" target="_blank" rel="noreferrer" className="group block">
+                <Link to="/course/$topic" params={{ topic: "flutter" }} className="group block">
                   <TiltCard className="h-full flex flex-col bg-white/5 hover:bg-white/10 p-8 rounded-3xl border border-white/5 hover:border-primary/50 transition-colors relative overflow-hidden">
-                    <MonitorPlay className="w-12 h-12 text-primary mb-8 group-hover:scale-110 transition-transform relative z-10" />
-                    <h3 className="text-3xl font-display font-bold text-white mb-4 relative z-10">Flutter Dev</h3>
-                    <p className="text-base text-white/60 leading-relaxed font-light mb-8 relative z-10">Build cross-platform applications beautifully and efficiently.</p>
-                    <div className="text-sm text-primary font-mono tracking-widest uppercase mt-auto relative z-10">Launch Hub</div>
+                    <MonitorPlay className="w-10 h-10 text-primary mb-6 group-hover:scale-110 transition-transform relative z-10" />
+                    <h3 className="text-2xl font-display font-bold text-white mb-3 relative z-10">Flutter Dev</h3>
+                    <p className="text-sm text-white/60 leading-relaxed font-light mb-6 relative z-10">Build cross-platform applications beautifully and efficiently.</p>
+                    <div className="text-[10px] text-primary font-mono tracking-widest uppercase mt-auto relative z-10">Launch Hub</div>
                   </TiltCard>
-                </a>
+                </Link>
 
-                <a href="https://javaguide.technologychannel.org" target="_blank" rel="noreferrer" className="group block">
+                <Link to="/course/$topic" params={{ topic: "java" }} className="group block">
                   <TiltCard className="h-full flex flex-col bg-white/5 hover:bg-white/10 p-8 rounded-3xl border border-white/5 hover:border-primary/50 transition-colors relative overflow-hidden">
-                    <Server className="w-12 h-12 text-primary mb-8 group-hover:scale-110 transition-transform relative z-10" />
-                    <h3 className="text-3xl font-display font-bold text-white mb-4 relative z-10">Java</h3>
-                    <p className="text-base text-white/60 leading-relaxed font-light mb-8 relative z-10">Enterprise-grade Java programming from absolute scratch.</p>
-                    <div className="text-sm text-primary font-mono tracking-widest uppercase mt-auto relative z-10">Launch Hub</div>
+                    <Server className="w-10 h-10 text-primary mb-6 group-hover:scale-110 transition-transform relative z-10" />
+                    <h3 className="text-2xl font-display font-bold text-white mb-3 relative z-10">Java</h3>
+                    <p className="text-sm text-white/60 leading-relaxed font-light mb-6 relative z-10">Enterprise-grade Java programming from absolute scratch.</p>
+                    <div className="text-[10px] text-primary font-mono tracking-widest uppercase mt-auto relative z-10">Launch Hub</div>
+                  </TiltCard>
+                </Link>
+
+                <a href="https://typingowl.com/" target="_blank" rel="noreferrer" className="group block">
+                  <TiltCard className="h-full flex flex-col bg-white/5 hover:bg-white/10 p-8 rounded-3xl border border-white/5 hover:border-primary/50 transition-colors relative overflow-hidden">
+                    <Keyboard className="w-10 h-10 text-primary mb-6 group-hover:scale-110 transition-transform relative z-10" />
+                    <h3 className="text-2xl font-display font-bold text-white mb-3 relative z-10">Typing Owl</h3>
+                    <p className="text-sm text-white/60 leading-relaxed font-light mb-6 relative z-10">Master touch typing to code and work faster.</p>
+                    <div className="text-[10px] text-primary font-mono tracking-widest uppercase mt-auto relative z-10 flex items-center gap-1">External <ArrowUpRight className="w-3 h-3" /></div>
                   </TiltCard>
                 </a>
               </div>
@@ -358,124 +368,42 @@ function HeroSection() {
   );
 }
 
-function KnowledgeGrid() {
+function LatestTransmissions() {
+  const recentEpisodes = episodes.slice(0, 6); // Take top 6 latest episodes
+
   return (
     <section className="relative min-h-screen py-32 container-page z-20">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {articles.map((article, i) => (
-          <TiltArticleCard key={article.id} imageSrc={cardImages[i]} article={article} />
+      <div className="flex items-end justify-between mb-16 gap-4 flex-wrap">
+        <div>
+          <p className="text-sm font-mono uppercase tracking-widest text-primary mb-3">
+            Latest Updates
+          </p>
+          <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-white">
+            Recent Transmissions
+          </h2>
+        </div>
+        <Link
+          to="/episodes"
+          className="inline-flex items-center gap-2 text-sm font-mono uppercase tracking-widest text-white/50 hover:text-primary transition-all"
+        >
+          View Archive <ArrowUpRight className="h-4 w-4" />
+        </Link>
+      </div>
+
+      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {recentEpisodes.map((ep, i) => (
+          <motion.div
+            key={ep.slug}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6, delay: i * 0.1, type: "spring" }}
+          >
+            <EpisodeCard ep={ep} index={i} featured={i === 0} />
+          </motion.div>
         ))}
       </div>
     </section>
-  );
-}
-
-const cardImages = [
-  "/images/automation_nodes.png",
-  "/images/n8n_setup.png",
-  "/images/n8n_beginners.png",
-  "/images/ai_slides.png",
-  "/images/ai_core.png",
-  "/images/ai_models.png",
-  "/images/ssh_guide.png",
-  "/images/ai_headshot.png"
-];
-
-function TiltArticleCard({ imageSrc, article }: { imageSrc: string, article: typeof articles[0] }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  
-  const mouseXSpring = useSpring(x, { stiffness: 150, damping: 20 });
-  const mouseYSpring = useSpring(y, { stiffness: 150, damping: 20 });
-
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["15deg", "-15deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-15deg", "15deg"]);
-
-  const innerX = useTransform(mouseXSpring, [-0.5, 0.5], ["-5%", "5%"]);
-  const innerY = useTransform(mouseYSpring, [-0.5, 0.5], ["-5%", "5%"]);
-
-  const glareX = useTransform(mouseXSpring, [-0.5, 0.5], ["100%", "0%"]);
-  const glareY = useTransform(mouseYSpring, [-0.5, 0.5], ["100%", "0%"]);
-  const glareBackground = useMotionTemplate`radial-gradient(circle at ${glareX} ${glareY}, rgba(255,255,255,0.15) 0%, transparent 60%)`;
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    x.set(mouseX / width - 0.5);
-    y.set(mouseY / height - 0.5);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.6, type: "spring", bounce: 0.3 }}
-      className="h-full"
-    >
-      <motion.div
-        ref={ref}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="h-full rounded-3xl"
-      >
-        <a href={article.link} target="_blank" rel="noreferrer" className="block h-full glass-panel rounded-3xl overflow-hidden relative group transform-style-3d border border-white/5 hover:border-primary/30 transition-colors bg-black/40">
-          
-          <motion.div className="absolute inset-0 z-50 pointer-events-none rounded-[inherit] mix-blend-overlay" style={{ background: glareBackground }} />
-          
-          {/* Inner 3D container for image */}
-          <div className="absolute inset-0 z-0 p-3 transform-style-3d translate-z-20 h-56">
-            <div className="w-full h-full rounded-2xl overflow-hidden relative shadow-2xl">
-              <div className="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors z-10 mix-blend-overlay" />
-              <motion.img 
-                style={{ x: innerX, y: innerY, scale: 1.1 }}
-                src={imageSrc} 
-                alt={article.title} 
-                className="w-full h-full object-cover group-hover:scale-100 transition-transform duration-700"
-              />
-              <div className="absolute top-4 right-4 z-20 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-mono text-white/80 border border-white/10">
-                {article.readTime}
-              </div>
-            </div>
-          </div>
-          
-          {/* Content */}
-          <div className="relative z-10 pt-64 p-8 transform-style-3d translate-z-30 flex flex-col h-full min-h-[380px]">
-            <div className="flex flex-wrap gap-2 mb-4">
-              {article.tags.slice(0,2).map(tag => (
-                <span key={tag} className="text-[10px] uppercase tracking-widest font-mono text-primary bg-primary/10 px-3 py-1 rounded-full backdrop-blur-md border border-primary/20">
-                  {tag}
-                </span>
-              ))}
-            </div>
-            <h3 className="text-xl font-display font-bold text-white mb-3 group-hover:text-primary transition-colors line-clamp-2">
-              {article.title}
-            </h3>
-            <p className="text-sm text-white/50 leading-relaxed font-light mb-6 line-clamp-3">
-              {article.excerpt}
-            </p>
-            <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
-              <span className="text-xs text-white/30 font-mono">{article.date}</span>
-              <div className="flex items-center gap-2 text-xs font-mono text-white/50 uppercase tracking-widest group-hover:text-primary transition-colors">
-                <span>Read</span>
-                <ArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-              </div>
-            </div>
-          </div>
-        </a>
-      </motion.div>
-    </motion.div>
   );
 }
 
@@ -516,9 +444,9 @@ export function Footer() {
             <h4 className="text-white font-display font-semibold mb-6">Learning Paths</h4>
             <ul className="flex flex-col gap-4 text-white/50 font-light text-sm uppercase tracking-widest">
               <li><Link to="/learn" className="hover:text-primary transition-colors">AI Basics</Link></li>
-              <li><a href="https://dart-tutorial.com/" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">Dart Programming</a></li>
-              <li><a href="https://flutter-tutorial.net" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">Flutter Development</a></li>
-              <li><a href="https://javaguide.technologychannel.org" target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">Java Masterclass</a></li>
+              <li><Link to="/course/$topic" params={{ topic: "dart" }} className="hover:text-primary transition-colors">Dart Programming</Link></li>
+              <li><Link to="/course/$topic" params={{ topic: "flutter" }} className="hover:text-primary transition-colors">Flutter Development</Link></li>
+              <li><Link to="/course/$topic" params={{ topic: "java" }} className="hover:text-primary transition-colors">Java Masterclass</Link></li>
             </ul>
           </div>
         </div>

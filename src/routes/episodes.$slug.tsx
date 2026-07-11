@@ -11,13 +11,13 @@ import {
   Radio,
   Check,
 } from "lucide-react";
-import { motion } from "motion/react";
-import { Navbar } from "@/components/site/Navbar";
-import { Footer } from "@/components/site/Footer";
+import { motion, useScroll, useSpring, useTransform } from "motion/react";
+import { Navigation, Footer } from "./index";
 import { EpisodeCard } from "@/components/site/EpisodeCard";
 import { EpisodeArtwork } from "@/components/site/EpisodeArtwork";
-import { Button } from "@/components/ui/button";
 import { episodes, type Episode } from "@/data/episodes";
+import NeuralNetworkCanvas from "../components/ui/NeuralNetworkCanvas";
+import Magnetic from "../components/ui/Magnetic";
 
 export const Route = createFileRoute("/episodes/$slug")({
   loader: ({ params }) => {
@@ -50,18 +50,20 @@ export const Route = createFileRoute("/episodes/$slug")({
 
 function NotFound() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
-      <div className="flex-1 grid place-items-center py-24">
-        <div className="text-center">
-          <p className="font-display text-8xl font-bold text-primary/10 mb-4">∅</p>
-          <h1 className="font-display text-3xl font-bold">Transmission not found</h1>
-          <p className="mt-3 text-muted-foreground">
-            This transmission may have moved or been rescheduled.
+    <div className="min-h-screen flex flex-col bg-black text-foreground relative font-sans">
+      <NeuralNetworkCanvas />
+      <div className="bg-noise mix-blend-overlay opacity-50 z-0" />
+      <Navigation />
+      <div className="flex-1 grid place-items-center py-24 relative z-10">
+        <div className="text-center glass-panel p-16 rounded-[3rem] border border-white/5">
+          <p className="font-display text-8xl font-black text-white/5 mb-6">∅</p>
+          <h1 className="font-display text-4xl font-bold text-white mb-4">Transmission Not Found</h1>
+          <p className="text-white/50 mb-8 font-light">
+            This transmission may have moved or been rescheduled in the archive.
           </p>
-          <Button asChild className="mt-6 bg-primary text-primary-foreground hover:bg-primary/90">
-            <Link to="/episodes">Back to Archive</Link>
-          </Button>
+          <Link to="/episodes" className="inline-flex items-center px-8 py-4 bg-primary text-black font-bold tracking-widest uppercase text-sm rounded-full shadow-[0_0_30px_rgba(0,255,255,0.3)] hover:scale-105 transition-transform">
+            Back to Archive
+          </Link>
         </div>
       </div>
       <Footer />
@@ -75,19 +77,11 @@ function EpisodePage() {
     txNum: string;
     txIndex: number;
   };
-  const [progress, setProgress] = useState(0);
   const [copied, setCopied] = useState(false);
 
-  useEffect(() => {
-    const onScroll = () => {
-      const h = document.documentElement;
-      const total = h.scrollHeight - h.clientHeight;
-      setProgress(total > 0 ? Math.min(1, h.scrollTop / total) : 0);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  const { scrollYProgress } = useScroll();
+  const scaleImage = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
+  const yImage = useTransform(scrollYProgress, [0, 1], [0, 300]);
 
   const shareUrl = typeof window !== "undefined" ? window.location.href : "";
   const copyLink = () => {
@@ -101,85 +95,70 @@ function EpisodePage() {
   const related = episodes.filter((e) => e.slug !== episode.slug).slice(0, 3);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
+    <div className="min-h-screen flex flex-col bg-black text-foreground relative font-sans">
+      <div className="bg-noise mix-blend-overlay opacity-50 z-0" />
+      <Navigation />
 
       {/* Reading progress bar */}
-      <div className="fixed top-16 left-0 right-0 h-0.5 bg-transparent z-40">
-        <div
-          className="h-full bg-gradient-to-r from-primary/80 via-primary to-cyan-400 transition-[width] duration-75"
-          style={{ width: `${progress * 100}%` }}
-        />
-      </div>
+      <motion.div 
+        className="fixed top-0 left-0 right-0 h-1 bg-primary z-50 origin-left"
+        style={{ scaleX: scrollYProgress, boxShadow: "0 0 20px rgba(0,255,255,0.5)" }}
+      />
 
-      <main className="flex-1">
+      <main className="flex-1 relative z-10 pt-24 pb-32">
         <article>
           {/* Hero header */}
-          <div className="relative border-b border-border/30 overflow-hidden">
-            <div className="absolute inset-0 -z-10">
-              <div
-                style={{
-                  background:
-                    "radial-gradient(ellipse 60% 80% at 70% 50%, oklch(0.78 0.17 182 / 0.07), transparent 65%)",
-                }}
-                className="absolute inset-0"
-              />
-              <div
-                className="absolute inset-0 opacity-[0.03]"
-                style={{
-                  backgroundImage: `linear-gradient(oklch(0.78 0.17 182) 1px, transparent 1px), linear-gradient(90deg, oklch(0.78 0.17 182) 1px, transparent 1px)`,
-                  backgroundSize: "48px 48px",
-                }}
-              />
-            </div>
+          <div className="relative pt-14 pb-20 overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent -z-10" />
 
-            <div className="container-page max-w-4xl pt-14 pb-12">
+            <div className="container-page max-w-5xl">
               <Link
                 to="/episodes"
-                className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
+                className="inline-flex items-center gap-2 text-sm text-white/50 hover:text-primary transition-colors mb-12 font-mono uppercase tracking-widest"
               >
                 <ArrowLeft className="h-4 w-4" /> Signal Archive
               </Link>
 
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="text-center"
               >
-                <div className="flex items-center gap-3 mb-5 flex-wrap">
-                  <span className="font-display text-xs font-bold tracking-widest text-primary/70 bg-primary/10 border border-primary/20 rounded-full px-3 py-1">
+                <div className="flex items-center justify-center gap-3 mb-8 flex-wrap">
+                  <span className="font-mono text-xs font-bold tracking-widest text-primary bg-primary/10 border border-primary/30 rounded-full px-4 py-1.5 shadow-[0_0_15px_rgba(0,255,255,0.2)]">
                     {txNum}
                   </span>
                   {episode.tags.map((t) => (
                     <span
                       key={t}
-                      className="text-[10px] uppercase tracking-widest px-2.5 py-1 rounded-full bg-secondary text-muted-foreground border border-border/50"
+                      className="text-xs font-mono uppercase tracking-widest px-4 py-1.5 rounded-full bg-white/5 text-white/70 border border-white/10"
                     >
                       {t}
                     </span>
                   ))}
                 </div>
 
-                <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05]">
+                <h1 className="font-display text-5xl md:text-7xl font-black tracking-tighter leading-[1.1] mb-8 text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60">
                   {episode.title}
                 </h1>
 
-                <p className="mt-5 text-lg text-muted-foreground leading-relaxed max-w-2xl">
+                <p className="text-xl md:text-2xl text-white/50 leading-relaxed font-light max-w-3xl mx-auto mb-10">
                   {episode.excerpt}
                 </p>
 
-                <div className="mt-7 flex items-center gap-4 text-sm text-muted-foreground flex-wrap">
-                  <div className="flex items-center gap-2">
-                    <div className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/15 text-primary text-xs font-bold font-display">
+                <div className="flex items-center justify-center gap-6 text-sm text-white/40 font-mono flex-wrap border-t border-white/10 pt-8 max-w-2xl mx-auto">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/20 text-primary border border-primary/30 text-xs font-bold font-display shadow-[0_0_15px_rgba(0,255,255,0.2)]">
                       BP
                     </div>
-                    <span className="font-medium text-foreground">{episode.author}</span>
+                    <span className="text-white">{episode.author}</span>
                   </div>
-                  <span className="h-1 w-1 rounded-full bg-border" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-white/20" />
                   <span>{episode.date}</span>
-                  <span className="h-1 w-1 rounded-full bg-border" />
-                  <span className="inline-flex items-center gap-1">
-                    <Clock className="h-3.5 w-3.5" /> {episode.readTime}
+                  <span className="h-1.5 w-1.5 rounded-full bg-white/20" />
+                  <span className="inline-flex items-center gap-2">
+                    <Clock className="h-4 w-4" /> {episode.readTime}
                   </span>
                 </div>
               </motion.div>
@@ -187,21 +166,28 @@ function EpisodePage() {
           </div>
 
           {/* Cover visual */}
-          <div className="container-page max-w-4xl">
-            <div className="relative mt-10 aspect-[21/9] rounded-2xl overflow-hidden border border-border/40 bg-card">
-              <EpisodeArtwork
-                seed={episode.slug}
-                paletteIndex={txIndex}
-                variant="banner"
-                label={txNum}
-                initial={episode.title.charAt(0)}
-              />
-            </div>
+          <div className="container-page max-w-6xl">
+            <motion.div 
+              style={{ y: yImage }}
+              className="relative aspect-[21/9] rounded-[3rem] overflow-hidden border border-white/10 bg-black shadow-[0_50px_100px_rgba(0,0,0,0.8)]"
+            >
+              <div className="absolute inset-0 bg-primary/10 mix-blend-overlay z-10" />
+              <motion.div style={{ scale: scaleImage }} className="w-full h-full">
+                <EpisodeArtwork
+                  seed={episode.slug}
+                  paletteIndex={txIndex}
+                  variant="banner"
+                  label={txNum}
+                  initial={episode.title.charAt(0)}
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+            </motion.div>
           </div>
 
           {/* Article body */}
-          <div className="container-page max-w-3xl mt-14 pb-24">
-            <div className="text-foreground/90 leading-relaxed">
+          <div className="container-page max-w-3xl mt-24 pb-24 relative z-20">
+            <div className="prose prose-invert prose-lg md:prose-xl max-w-none text-white/70 leading-relaxed font-light prose-headings:font-display prose-headings:font-bold prose-headings:text-white prose-a:text-primary prose-a:no-underline hover:prose-a:underline">
               {episode.content
                 .trim()
                 .split(/\n\n+/)
@@ -210,17 +196,31 @@ function EpisodePage() {
                     return (
                       <h2
                         key={i}
-                        className="font-display mt-14 mb-5 text-2xl md:text-3xl font-bold tracking-tight text-foreground"
+                        className="mt-16 mb-8 text-3xl md:text-4xl tracking-tight"
                       >
                         {block.replace(/^##\s+/, "")}
                       </h2>
                     );
                   }
+                  if (block.startsWith("```")) {
+                    // Primitive code block handling for aesthetic
+                    return (
+                      <div key={i} className="my-10 rounded-2xl overflow-hidden border border-white/10 bg-[#0d0d0d]">
+                        <div className="flex items-center px-4 py-3 border-b border-white/10 bg-black/50">
+                          <div className="flex gap-2">
+                            <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                            <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                            <div className="w-3 h-3 rounded-full bg-green-500/80" />
+                          </div>
+                        </div>
+                        <div className="p-6 overflow-x-auto text-sm font-mono text-primary/80">
+                          <pre>{block.replace(/```[a-z]*\n/, "").replace(/```$/, "")}</pre>
+                        </div>
+                      </div>
+                    );
+                  }
                   return (
-                    <p
-                      key={i}
-                      className="mb-6 text-base md:text-[17px] leading-[1.8] text-muted-foreground"
-                    >
+                    <p key={i} className="mb-8">
                       {block}
                     </p>
                   );
@@ -228,91 +228,105 @@ function EpisodePage() {
             </div>
 
             {/* Share bar */}
-            <div className="mt-16 pt-8 border-t border-border/40 flex flex-wrap items-center justify-between gap-4">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <div className="mt-20 pt-10 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="flex items-center gap-3 text-sm text-white/50 font-mono tracking-widest uppercase">
                 <Share2 className="h-4 w-4" />
-                Share this transmission
+                Share Transmission
               </div>
-              <div className="flex items-center gap-2">
-                <a
-                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(episode.title)}&url=${encodeURIComponent(shareUrl)}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="Share on X / Twitter"
-                  className="grid h-9 w-9 place-items-center rounded-lg border border-border/60 bg-card hover:border-primary/40 hover:text-primary transition-all hover:-translate-y-0.5"
-                >
-                  <Twitter className="h-4 w-4" />
-                </a>
-                <a
-                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="Share on LinkedIn"
-                  className="grid h-9 w-9 place-items-center rounded-lg border border-border/60 bg-card hover:border-primary/40 hover:text-primary transition-all hover:-translate-y-0.5"
-                >
-                  <Linkedin className="h-4 w-4" />
-                </a>
-                <button
-                  onClick={copyLink}
-                  aria-label="Copy link"
-                  className={`grid h-9 w-9 place-items-center rounded-lg border transition-all hover:-translate-y-0.5 ${
-                    copied
-                      ? "border-primary/60 bg-primary/10 text-primary"
-                      : "border-border/60 bg-card hover:border-primary/40 hover:text-primary"
-                  }`}
-                >
-                  {copied ? <Check className="h-4 w-4" /> : <LinkIcon className="h-4 w-4" />}
-                </button>
+              <div className="flex items-center gap-4">
+                <Magnetic>
+                  <a
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(episode.title)}&url=${encodeURIComponent(shareUrl)}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 hover:bg-primary hover:border-primary hover:text-black transition-colors"
+                  >
+                    <Twitter className="h-5 w-5" />
+                  </a>
+                </Magnetic>
+                <Magnetic>
+                  <a
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 hover:bg-primary hover:border-primary hover:text-black transition-colors"
+                  >
+                    <Linkedin className="h-5 w-5" />
+                  </a>
+                </Magnetic>
+                <Magnetic>
+                  <button
+                    onClick={copyLink}
+                    className={`flex h-12 w-12 items-center justify-center rounded-full border transition-colors ${
+                      copied
+                        ? "border-primary bg-primary text-black"
+                        : "border-white/10 bg-white/5 hover:bg-primary hover:border-primary hover:text-black"
+                    }`}
+                  >
+                    {copied ? <Check className="h-5 w-5" /> : <LinkIcon className="h-5 w-5" />}
+                  </button>
+                </Magnetic>
               </div>
             </div>
 
             {/* Author card */}
-            <aside className="mt-10 rounded-2xl border border-border/40 bg-card overflow-hidden">
-              <div className="h-0.5 w-full bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
-              <div className="p-7 flex flex-col sm:flex-row items-start gap-6">
-                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-primary/15 border border-primary/25 text-primary text-xl font-bold font-display">
+            <aside className="mt-16 rounded-[2rem] border border-white/5 glass-panel overflow-hidden relative">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+              <div className="p-10 flex flex-col sm:flex-row items-center sm:items-start gap-8 text-center sm:text-left">
+                <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-primary/20 border border-primary/40 text-primary text-2xl font-bold font-display shadow-[0_0_30px_rgba(0,255,255,0.2)]">
                   BP
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
+                <div className="flex-1">
+                  <p className="text-xs font-mono uppercase tracking-widest text-white/40 mb-2">
                     Transmitted by
                   </p>
-                  <h3 className="font-display text-lg font-bold">{episode.author}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                    Developer, trainer and automation practitioner. Helping people cut busywork and
-                    ship real projects with AI in the loop — from Kathmandu, Nepal.
+                  <h3 className="font-display text-2xl font-bold text-white mb-3">{episode.author}</h3>
+                  <p className="text-white/60 leading-relaxed font-light">
+                    System Architect and Educator. Helping developers bridge the gap between theoretical computer science and practical, world-changing applications.
                   </p>
                 </div>
-                <Button variant="outline" className="border-border/60 shrink-0 gap-1.5">
-                  Follow <Radio className="h-3.5 w-3.5 text-primary" />
-                </Button>
+                <div className="shrink-0 mt-4 sm:mt-0">
+                  <Magnetic>
+                    <button className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/20 hover:border-primary hover:bg-primary/10 text-white transition-colors text-sm font-bold uppercase tracking-widest">
+                      Follow <Radio className="h-4 w-4 text-primary" />
+                    </button>
+                  </Magnetic>
+                </div>
               </div>
             </aside>
           </div>
         </article>
 
         {/* Related transmissions */}
-        <section className="py-20 border-t border-border/30">
+        <section className="pt-24 border-t border-white/10 mt-12 bg-black/50">
           <div className="container-page">
-            <div className="flex items-end justify-between mb-10 gap-4 flex-wrap">
+            <div className="flex items-end justify-between mb-16 gap-4 flex-wrap">
               <div>
-                <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-2">
-                  Keep Reading
+                <p className="text-sm font-mono uppercase tracking-widest text-primary mb-3">
+                  System Archives
                 </p>
-                <h2 className="font-display text-2xl md:text-3xl font-bold tracking-tight">
+                <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-white">
                   Related Transmissions
                 </h2>
               </div>
               <Link
                 to="/episodes"
-                className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:gap-2 transition-all"
+                className="inline-flex items-center gap-2 text-sm font-mono uppercase tracking-widest text-white/50 hover:text-primary transition-all"
               >
-                All transmissions <ArrowUpRight className="h-3.5 w-3.5" />
+                All transmissions <ArrowUpRight className="h-4 w-4" />
               </Link>
             </div>
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {related.map((r, i) => (
-                <EpisodeCard key={r.slug} ep={r} index={i} />
+                <motion.div
+                  key={r.slug}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                >
+                  <EpisodeCard ep={r} index={i} />
+                </motion.div>
               ))}
             </div>
           </div>
